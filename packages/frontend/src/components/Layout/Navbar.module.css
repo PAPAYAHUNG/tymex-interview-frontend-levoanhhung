@@ -1,0 +1,92 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #1a1a1a;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbarLeft {
+  flex: 1;
+}
+
+.logo {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbarCenter {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 600px;
+  background-color: #2a2a2a !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px;
+}
+
+.searchInput input {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.searchInput :global(.ant-input-prefix) {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.filterTags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filterTag {
+  color: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: #2a2a2a !important;
+  border-radius: 20px !important;
+  padding: 0 1rem;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.filterTag:hover {
+  background-color: #3a3a3a !important;
+  color: white !important;
+}
+
+.navbarRight {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.connectButton {
+  background: linear-gradient(90deg, #ff1cf7 0%, #b249f8 100%) !important;
+  border: none !important;
+  border-radius: 20px !important;
+  height: 40px;
+  padding: 0 1.5rem;
+  font-weight: 600;
+}
+
+.connectButton:hover {
+  opacity: 0.9;
+}
+
+.avatar {
+  background-color: #2a2a2a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+} 
