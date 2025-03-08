@@ -1,20 +1,27 @@
 import React from 'react';
 import { Button } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
+import { Link, useLocation } from 'react-router-dom';
 import { useScrollEffect } from '../../hooks/useScrollEffect';
 import styles from './Navbar.module.css';
 
 const Navbar: React.FC = () => {
   const isScrolled = useScrollEffect();
+  const location = useLocation();
   
   const navItems = [
-    { label: 'HOME', href: '/' },
-    { label: 'ABOUT US', href: '/about' },
-    { label: 'OUR TEAMS', href: '/teams' },
-    { label: 'MARKETPLACE', href: '/marketplace', highlight: true },
-    { label: 'ROADMAP', href: '/roadmap' },
-    { label: 'WHITEPAPER', href: '/whitepaper' },
+    { label: 'HOME', path: '/' },
+    { label: 'ABOUT US', path: '/about' },
+    { label: 'OUR TEAMS', path: '/teams' },
+    { label: 'MARKETPLACE', path: '/marketplace', highlight: true },
+    { label: 'ROADMAP', path: '/roadmap' },
+    { label: 'WHITEPAPER', path: '/whitepaper' },
   ];
+
+  const isActive = (path: string) => {
+    if (path === '/' && location.pathname !== '/') return false;
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <nav className={`${styles.navbar} ${isScrolled ? 'scrolled' : ''}`}>
@@ -22,13 +29,15 @@ const Navbar: React.FC = () => {
         {/* Navigation Links */}
         <div className={styles.navLinks}>
           {navItems.map((item) => (
-            <a 
-              key={item.label} 
-              href={item.href} 
-              className={`${styles.navLink} ${item.highlight ? styles.highlighted : ''}`}
+            <Link
+              key={item.label}
+              to={item.path}
+              className={`${styles.navLink} ${item.highlight ? styles.highlighted : ''} ${
+                isActive(item.path) ? styles.active : ''
+              }`}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </div>
 

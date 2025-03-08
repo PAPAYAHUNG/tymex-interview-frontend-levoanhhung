@@ -29,12 +29,33 @@
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.5px;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
   padding: 0.5rem 0;
+  position: relative;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ff1cf7;
+  transition: width 0.3s ease;
+}
+
+.navLink:hover::after,
+.navLink.active::after {
+  width: 100%;
 }
 
 .navLink:hover {
   color: rgba(255, 255, 255, 0.8);
+}
+
+.navLink.active {
+  color: white;
 }
 
 .highlighted {
@@ -44,6 +65,10 @@
 .highlighted:hover {
   color: #ff1cf7;
   opacity: 0.8;
+}
+
+.highlighted::after {
+  background: #ff1cf7;
 }
 
 .navbarRight {
