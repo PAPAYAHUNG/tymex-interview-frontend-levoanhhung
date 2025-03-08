@@ -1,40 +1,47 @@
 import React from 'react';
-import { Input, Button, Space, Avatar } from 'antd';
-import { SearchOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
+import { GlobalOutlined } from '@ant-design/icons';
+import { useScrollEffect } from '../../hooks/useScrollEffect';
 import styles from './Navbar.module.css';
 
 const Navbar: React.FC = () => {
-  return (
-    <nav className={styles.navbar}>
-      <div className={styles.navbarLeft}>
-        <h1 className={styles.logo}>MarketPlace</h1>
-      </div>
-      
-      <div className={styles.navbarCenter}>
-        <Input
-          prefix={<SearchOutlined />}
-          placeholder="Quick search"
-          className={styles.searchInput}
-        />
-        <div className={styles.filterTags}>
-          <Button type="text" className={styles.filterTag}>Super Rare</Button>
-          <Button type="text" className={styles.filterTag}>Live Drop</Button>
-          <Button type="text" className={styles.filterTag}>Epic</Button>
-          <Button type="text" className={styles.filterTag}>Rare</Button>
-          <Button type="text" className={styles.filterTag}>Legendary</Button>
-          <Button type="text" className={styles.filterTag}>Mythic</Button>
-          <Button type="text" className={styles.filterTag}>Epic</Button>
-          <Button type="text" className={styles.filterTag}>Rare</Button>
-        </div>
-      </div>
+  const isScrolled = useScrollEffect();
+  
+  const navItems = [
+    { label: 'HOME', href: '/' },
+    { label: 'ABOUT US', href: '/about' },
+    { label: 'OUR TEAMS', href: '/teams' },
+    { label: 'MARKETPLACE', href: '/marketplace', highlight: true },
+    { label: 'ROADMAP', href: '/roadmap' },
+    { label: 'WHITEPAPER', href: '/whitepaper' },
+  ];
 
-      <div className={styles.navbarRight}>
-        <Space size="large">
+  return (
+    <nav className={`${styles.navbar} ${isScrolled ? 'scrolled' : ''}`}>
+      <div className={styles.navbarContent}>
+        {/* Navigation Links */}
+        <div className={styles.navLinks}>
+          {navItems.map((item) => (
+            <a 
+              key={item.label} 
+              href={item.href} 
+              className={`${styles.navLink} ${item.highlight ? styles.highlighted : ''}`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Right Section */}
+        <div className={styles.navbarRight}>
           <Button type="primary" className={styles.connectButton}>
             Connect Wallet
           </Button>
-          <Avatar icon={<UserOutlined />} className={styles.avatar} />
-        </Space>
+          <div className={styles.languageSelector}>
+            <GlobalOutlined className={styles.globeIcon} />
+            <span>EN</span>
+          </div>
+        </div>
       </div>
     </nav>
   );

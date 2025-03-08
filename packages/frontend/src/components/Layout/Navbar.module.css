@@ -1,11 +1,98 @@
 .navbar {
+  background-color: transparent;
+  padding: 1rem 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.navbarContent {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #1a1a1a;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navLink {
   color: white;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+  padding: 0.5rem 0;
+}
+
+.navLink:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.highlighted {
+  color: #ff1cf7;
+}
+
+.highlighted:hover {
+  color: #ff1cf7;
+  opacity: 0.8;
+}
+
+.navbarRight {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.connectButton {
+  background: #ff1cf7 !important;
+  border: none !important;
+  border-radius: 20px !important;
+  height: 36px !important;
+  padding: 0 1.5rem !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: opacity 0.3s ease !important;
+}
+
+.connectButton:hover {
+  opacity: 0.9 !important;
+}
+
+.languageSelector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.languageSelector:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.globeIcon {
+  font-size: 1rem;
+}
+
+/* Add a subtle gradient background when scrolling */
+:global(.scrolled) .navbar {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
+  backdrop-filter: blur(10px);
 }
 
 .navbarLeft {
@@ -65,25 +152,6 @@
 .filterTag:hover {
   background-color: #3a3a3a !important;
   color: white !important;
-}
-
-.navbarRight {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.connectButton {
-  background: linear-gradient(90deg, #ff1cf7 0%, #b249f8 100%) !important;
-  border: none !important;
-  border-radius: 20px !important;
-  height: 40px;
-  padding: 0 1.5rem;
-  font-weight: 600;
-}
-
-.connectButton:hover {
-  opacity: 0.9;
 }
 
 .avatar {
