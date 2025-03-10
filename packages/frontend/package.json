@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "lint:css": "stylelint 'src/**/*.css'",
+    "check-files": "node scripts/check-css-modules.js",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -17,6 +19,7 @@
     "antd": "^5.24.3",
     "axios": "^1.8.2",
     "classnames": "^2.5.1",
+    "framer-motion": "^12.4.10",
     "jsdom": "^26.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

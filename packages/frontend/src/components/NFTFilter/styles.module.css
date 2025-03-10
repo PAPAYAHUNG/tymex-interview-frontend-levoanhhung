@@ -1,0 +1,155 @@
+.container {
+  padding: 20px;
+  color: white;
+}
+
+.searchInput {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  margin-bottom: 20px;
+  color: white;
+  width: 100%;
+}
+
+.searchInput :global(.ant-input) {
+  background: transparent;
+  color: white;
+}
+
+.searchInput :global(.ant-input-prefix) {
+  color: #666;
+}
+
+.filterSection {
+  margin-bottom: 20px;
+}
+
+.filterLabel {
+  margin-bottom: 10px;
+  color: #666;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.priceSlider {
+  margin: 8px 0;
+}
+
+.priceSlider :global(.ant-slider-rail) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.priceSlider :global(.ant-slider-track) {
+  background-color: #eb2f96;
+}
+
+.priceSlider :global(.ant-slider-handle) {
+  border-color: #eb2f96;
+}
+
+.priceSlider :global(.ant-slider-mark-text) {
+  color: #666;
+  font-size: 12px;
+}
+
+.select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.select :global(.ant-select-selector) {
+  background: transparent !important;
+  border: none !important;
+  color: white !important;
+}
+
+.select :global(.ant-select-arrow) {
+  color: #666;
+}
+
+.select :global(.ant-select-selection-placeholder) {
+  color: #666 !important;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.resetButton {
+  flex: 1;
+  background: transparent;
+  border: 1px solid #666;
+  color: #666;
+  height: 36px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.resetButton:hover {
+  border-color: #eb2f96;
+  color: #eb2f96;
+}
+
+.searchButton {
+  flex: 1;
+  background: #eb2f96;
+  border: none;
+  color: white;
+  height: 36px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.searchButton:hover {
+  background: #c41d7f;
+}
+
+/* Custom dropdown styles */
+:global(.ant-select-dropdown) {
+  background-color: #1a1a1a !important;
+}
+
+:global(.ant-select-item) {
+  color: #fff !important;
+}
+
+:global(.ant-select-item-option-selected) {
+  background-color: rgba(235, 47, 150, 0.2) !important;
+}
+
+:global(.ant-select-item-option-active) {
+  background-color: rgba(235, 47, 150, 0.1) !important;
+}
+
+/* Custom slider tooltip */
+:global(.ant-tooltip-inner) {
+  background-color: #1a1a1a !important;
+  border: 1px solid #eb2f96;
+}
+
+/* Price range marks */
+.priceRangeMark {
+  color: #666;
+  font-size: 12px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .buttonGroup {
+    flex-direction: column;
+  }
+  
+  .resetButton,
+  .searchButton {
+    width: 100%;
+  }
+} 

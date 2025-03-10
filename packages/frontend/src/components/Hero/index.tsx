@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import styles from './Hero.module.css';
+import styles from './styles.module.css';
 
 // Import character images
 import assassinImg from '../../assets/characters/section1.png';

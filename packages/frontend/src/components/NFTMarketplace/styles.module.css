@@ -1,0 +1,200 @@
+.container {
+  background: #141414;
+  padding: 20px;
+}
+
+.categoryTabs {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.categoryTabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.categoryTabs::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.categoryTabs::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.categoryButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  border-radius: 4px;
+  min-width: fit-content;
+  padding: 4px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.categoryButtonActive {
+  composes: categoryButton;
+  background: #eb2f96;
+}
+
+.categoryButton:hover {
+  background: rgba(235, 47, 150, 0.8);
+}
+
+.sidebarFilter {
+  background: #1a1a1a;
+  margin-right: 20px;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.nftGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  padding: 0 16px;
+}
+
+.nftCard {
+  background: #1a1a1a;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.nftCard:hover {
+  transform: translateY(-5px);
+}
+
+.cardImageContainer {
+  position: relative;
+  aspect-ratio: 1/1;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.categoryTag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: white;
+  font-size: 12px;
+  border: none;
+}
+
+.categoryTagEpic {
+  composes: categoryTag;
+  background: #722ed1;
+}
+
+.categoryTagMythic {
+  composes: categoryTag;
+  background: #eb2f96;
+}
+
+.categoryTagCommon {
+  composes: categoryTag;
+  background: #52c41a;
+}
+
+.categoryTagRare {
+  composes: categoryTag;
+  background: #1890ff;
+}
+
+.categoryTagLegendary {
+  composes: categoryTag;
+  background: #fa8c16;
+}
+
+.favoriteButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.favoriteButton:hover {
+  transform: scale(1.2);
+}
+
+.cardContent {
+  padding: 12px;
+}
+
+.cardTitle {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.authorName {
+  color: #666;
+  font-size: 14px;
+}
+
+.price {
+  color: white;
+  font-weight: 500;
+}
+
+.viewMoreContainer {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.viewMoreButton {
+  background: #eb2f96;
+  border: none;
+  height: 40px;
+  padding: 0 40px;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.viewMoreButton:hover {
+  background: #c41d7f;
+}
+
+@media (max-width: 768px) {
+  .nftGrid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .nftGrid {
+    grid-template-columns: 1fr;
+  }
+} 
