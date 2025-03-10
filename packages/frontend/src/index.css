@@ -7,6 +7,19 @@
   color: rgba(255, 255, 255, 0.87);
   background-color: #0a0a0a;
 
+  /* NFT Marketplace Colors */
+  --background-primary: #141414;
+  --background-secondary: #1a1a1a;
+  --background-overlay: rgba(255, 255, 255, 0.1);
+  --background-overlay-hover: rgba(235, 47, 150, 0.8);
+  --background-primary-pink: #eb2f96;
+  --background-primary-pink-hover: #c41d7f;
+  --background-epic: #722ed1;
+  --background-mythic: #eb2f96;
+  --background-common: #52c41a;
+  --background-rare: #1890ff;
+  --background-legendary: #fa8c16;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
