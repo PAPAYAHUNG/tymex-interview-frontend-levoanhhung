@@ -24,6 +24,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    "allowJs": true,
+    "esModuleInterop": true,
+
     "plugins": [
       {
         "name": "typescript-plugin-css-modules"
@@ -33,7 +36,9 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.css"
+    "src/**/*.css",
+    ".eslintrc.js",
+    "vite.config.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

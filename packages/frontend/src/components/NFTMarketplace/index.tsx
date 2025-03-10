@@ -1,6 +1,6 @@
 import React from 'react';
-import { Layout, Avatar} from 'antd';
-import { HeartOutlined, HeartFilled } from '@ant-design/icons';
+import { Layout, Avatar, Input } from 'antd';
+import { HeartOutlined, HeartFilled, SearchOutlined } from '@ant-design/icons';
 import styles from './styles.module.css';
 import NFTFilter from '../NFTFilter';
 
@@ -37,23 +37,22 @@ const NFTMarketplace: React.FC = () => {
 
   return (
     <Layout className={styles.container}>
-      <div className={styles.categoryTabs}>
-        {categories.map((category) => (
-          <button
-            key={category}
-            className={category === 'All' ? styles.categoryButtonActive : styles.categoryButton}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
       <Layout style={{ background: '#141414' }}>
         <Sider width={300} className={styles.sidebarFilter}>
           <NFTFilter />
         </Sider>
 
         <Content>
+          <div className={styles.categoryTabs}>
+            {categories.map((category) => (
+              <button
+                key={category}
+                className={category === 'All' ? styles.categoryButtonActive : styles.categoryButton}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
           <div className={styles.nftGrid}>
             {mockData.map((item) => (
               <div key={item.id} className={styles.nftCard}>

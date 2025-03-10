@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings 0",
+    "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
     "lint:css": "stylelint 'src/**/*.css'",
     "check-files": "node scripts/check-css-modules.js",
+    "type-check": "tsc --noEmit",
     "preview": "vite preview"
   },
   "dependencies": {

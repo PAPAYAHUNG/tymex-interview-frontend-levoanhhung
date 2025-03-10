@@ -1,6 +1,7 @@
 .container {
   background: #141414;
   padding: 20px;
+  margin-top: 20px;
 }
 
 .categoryTabs {
@@ -9,6 +10,24 @@
   gap: 10px;
   overflow-x: auto;
   padding-bottom: 10px;
+
+}
+
+.searchInput {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  margin-bottom: 20px;
+  color: white;
+  width: 100%;
+}
+
+.searchInput :global(.ant-input) {
+  background: transparent;
+  color: white;
+}
+
+.searchInput :global(.ant-input-prefix) {
+  color: #666;
 }
 
 .categoryTabs::-webkit-scrollbar {
@@ -24,6 +43,8 @@
   background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }
+
+
 
 .categoryButton {
   background: rgba(255, 255, 255, 0.1);
@@ -197,4 +218,4 @@
   .nftGrid {
     grid-template-columns: 1fr;
   }
-} 
+}
