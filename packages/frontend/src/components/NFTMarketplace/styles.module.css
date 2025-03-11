@@ -1,32 +1,23 @@
 .container {
   min-height: 100vh;
-  background: #141414;
+  background-color: rgb(13, 17, 28);
 }
 
+.sidebarFilter {
+  background: rgba(13, 17, 28, 0.7) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 24px;
+}
+
+/* Category tabs styles */
 .categoryTabs {
   display: flex;
-  gap: 8px;
-  padding: 24px;
+  gap: 12px;
+  padding: 16px 24px;
   overflow-x: auto;
-  background: #1a1a1a;
+  background: rgba(13, 17, 28, 0.7);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.searchInput {
-  background: var(--background-overlay);
-  border: none;
-  margin-bottom: 20px;
-  color: white;
-  width: 100%;
-}
-
-.searchInput :global(.ant-input) {
-  background: transparent;
-  color: white;
-}
-
-.searchInput :global(.ant-input-prefix) {
-  color: #666;
+  white-space: nowrap;
 }
 
 .categoryTabs::-webkit-scrollbar {
@@ -34,13 +25,12 @@
 }
 
 .categoryTabs::-webkit-scrollbar-track {
-  background: var(--background-overlay);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .categoryTabs::-webkit-scrollbar-thumb {
-  background: var(--background-overlay);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
 }
 
 .categoryButton {
@@ -51,46 +41,36 @@
   color: rgba(255, 255, 255, 0.85);
   cursor: pointer;
   transition: all 0.3s;
-  white-space: nowrap;
+  font-size: 14px;
 }
 
 .categoryButton:hover {
-  border-color: #ff1cf7;
-  color: #ff1cf7;
+  border-color: #E75BD8;
+  color: #E75BD8;
 }
 
 .categoryButtonActive {
   composes: categoryButton;
-  background: #ff1cf7;
-  border-color: #ff1cf7;
-  color: #fff;
+  background: #E75BD8;
+  border-color: #E75BD8;
+  color: white;
 }
 
-.sidebarFilter {
-  background: #1a1a1a !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-}
-
+/* NFT Grid styles */
 .nftGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
   padding: 24px;
-}
-
-.loadingContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
-  grid-column: 1 / -1;
+  background: rgb(13, 17, 28);
 }
 
 .nftCard {
-  background: #1a1a1a;
-  border-radius: 12px;
+  background: rgba(13, 17, 28, 0.7);
+  border-radius: 16px;
   overflow: hidden;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nftCard:hover {
@@ -100,6 +80,7 @@
 .cardImageContainer {
   position: relative;
   padding-top: 100%;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .cardImage {
@@ -111,35 +92,42 @@
   object-fit: cover;
 }
 
+/* Category tag styles */
 .categoryTag {
   position: absolute;
   top: 12px;
   left: 12px;
-  padding: 4px 8px;
+  padding: 4px 12px;
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.75);
-  color: #fff;
   font-size: 12px;
+  font-weight: 500;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .categoryTagEpic {
   composes: categoryTag;
-  background: linear-gradient(45deg, #7b2ff7, #f72fee);
+  background: linear-gradient(45deg, #9d3bff, #e542ff);
 }
 
 .categoryTagMythic {
   composes: categoryTag;
-  background: linear-gradient(45deg, #f7922f, #f72f2f);
+  background: linear-gradient(45deg, #ff3b3b, #ff42a8);
 }
 
 .categoryTagRare {
   composes: categoryTag;
-  background: linear-gradient(45deg, #2f7bf7, #2ff7f7);
+  background: linear-gradient(45deg, #3b76ff, #42ffef);
 }
 
 .categoryTagLegendary {
   composes: categoryTag;
-  background: linear-gradient(45deg, #f7d92f, #f7922f);
+  background: linear-gradient(45deg, #ffb83b, #ff7842);
+}
+
+.categoryTagCommon {
+  composes: categoryTag;
+  background: linear-gradient(45deg, #3bff7c, #42ffb8);
 }
 
 .favoriteButton {
@@ -151,15 +139,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 50%;
-  color: #fff;
+  color: white;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .favoriteButton:hover {
-  color: #ff1cf7;
+  color: #E75BD8;
 }
 
 .cardContent {
@@ -169,7 +157,7 @@
 .cardTitle {
   font-size: 16px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
+  color: white;
   margin-bottom: 12px;
 }
 
@@ -186,13 +174,21 @@
 }
 
 .authorName {
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
 }
 
 .price {
-  color: #ff1cf7;
+  color: #E75BD8;
   font-weight: 600;
+  font-size: 16px;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
 }
 
 .viewMoreContainer {
@@ -203,17 +199,17 @@
 
 .viewMoreButton {
   padding: 8px 24px;
-  border: 1px solid #ff1cf7;
+  border: 1px solid #E75BD8;
   border-radius: 20px;
   background: transparent;
-  color: #ff1cf7;
+  color: #E75BD8;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .viewMoreButton:hover {
-  background: #ff1cf7;
-  color: #fff;
+  background: #E75BD8;
+  color: white;
 }
 
 .viewMoreButton:disabled {
@@ -221,14 +217,57 @@
   cursor: not-allowed;
 }
 
+@media (max-width: 1200px) {
+  .nftGrid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebarFilter {
+    width: 100% !important;
+    max-width: none;
+  }
+
   .nftGrid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    padding: 16px;
+  }
+
+  .categoryTabs {
+    padding: 12px 16px;
+    gap: 8px;
+  }
+
+  .categoryButton {
+    padding: 6px 12px;
+    font-size: 13px;
   }
 }
 
 @media (max-width: 480px) {
   .nftGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+  }
+
+  .cardContent {
+    padding: 12px;
+  }
+
+  .cardTitle {
+    font-size: 14px;
+  }
+
+  .authorName {
+    font-size: 12px;
+  }
+
+  .price {
+    font-size: 14px;
   }
 }
