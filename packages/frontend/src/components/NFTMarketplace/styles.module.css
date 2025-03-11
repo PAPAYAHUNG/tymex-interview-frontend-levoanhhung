@@ -1,16 +1,15 @@
 .container {
-  background: var(--background-primary);
-  padding: 20px;
-  margin-top: 20px;
+  min-height: 100vh;
+  background: #141414;
 }
 
 .categoryTabs {
-  margin-bottom: 20px;
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  padding: 24px;
   overflow-x: auto;
-  padding-bottom: 10px;
-
+  background: #1a1a1a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .searchInput {
@@ -45,57 +44,68 @@
 }
 
 .categoryButton {
-  background: var(--background-overlay);
-  border: none;
-  color: white;
-  border-radius: 4px;
-  min-width: fit-content;
-  padding: 4px 16px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.categoryButton:hover {
+  border-color: #ff1cf7;
+  color: #ff1cf7;
 }
 
 .categoryButtonActive {
   composes: categoryButton;
-  background: var(--background-primary-pink);
-}
-
-.categoryButton:hover {
-  background: var(--background-overlay-hover);
+  background: #ff1cf7;
+  border-color: #ff1cf7;
+  color: #fff;
 }
 
 .sidebarFilter {
-  background: var(--background-secondary);
-  margin-right: 20px;
-  border-radius: 8px;
-  padding: 20px;
+  background: #1a1a1a !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nftGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
-  padding: 0 16px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 24px;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  grid-column: 1 / -1;
 }
 
 .nftCard {
-  background: var(--background-secondary);
-  border: none;
-  border-radius: 8px;
+  background: #1a1a1a;
+  border-radius: 12px;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s;
 }
 
 .nftCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
 }
 
 .cardImageContainer {
   position: relative;
-  aspect-ratio: 1/1;
+  padding-top: 100%;
 }
 
 .cardImage {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -103,65 +113,64 @@
 
 .categoryTag {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  padding: 2px 8px;
+  top: 12px;
+  left: 12px;
+  padding: 4px 8px;
   border-radius: 4px;
-  color: white;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
   font-size: 12px;
-  border: none;
 }
 
 .categoryTagEpic {
   composes: categoryTag;
-  background: var(--background-epic);
+  background: linear-gradient(45deg, #7b2ff7, #f72fee);
 }
 
 .categoryTagMythic {
   composes: categoryTag;
-  background: var(--background-mythic);
-}
-
-.categoryTagCommon {
-  composes: categoryTag;
-  background: var(--background-common);
+  background: linear-gradient(45deg, #f7922f, #f72f2f);
 }
 
 .categoryTagRare {
   composes: categoryTag;
-  background: var(--background-rare);
+  background: linear-gradient(45deg, #2f7bf7, #2ff7f7);
 }
 
 .categoryTagLegendary {
   composes: categoryTag;
-  background: var(--background-legendary);
+  background: linear-gradient(45deg, #f7d92f, #f7922f);
 }
 
 .favoriteButton {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  color: white;
-  font-size: 20px;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 50%;
+  color: #fff;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
 
 .favoriteButton:hover {
-  transform: scale(1.2);
+  color: #ff1cf7;
 }
 
 .cardContent {
-  padding: 12px;
+  padding: 16px;
 }
 
 .cardTitle {
-  color: white;
   font-size: 16px;
-  margin-bottom: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 12px;
 }
 
 .cardFooter {
@@ -177,33 +186,39 @@
 }
 
 .authorName {
-  color: #666;
+  color: rgba(255, 255, 255, 0.65);
   font-size: 14px;
 }
 
 .price {
-  color: white;
-  font-weight: 500;
+  color: #ff1cf7;
+  font-weight: 600;
 }
 
 .viewMoreContainer {
-  text-align: center;
-  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  padding: 24px;
 }
 
 .viewMoreButton {
-  background: var(--background-primary-pink);
-  border: none;
-  height: 40px;
-  padding: 0 40px;
-  color: white;
-  border-radius: 4px;
+  padding: 8px 24px;
+  border: 1px solid #ff1cf7;
+  border-radius: 20px;
+  background: transparent;
+  color: #ff1cf7;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
 
 .viewMoreButton:hover {
-  background: var(--background-primary-pink-hover);
+  background: #ff1cf7;
+  color: #fff;
+}
+
+.viewMoreButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {
