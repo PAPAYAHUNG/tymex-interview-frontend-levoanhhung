@@ -110,9 +110,8 @@ const NFTMarketplace: React.FC = () => {
               </button>
             ))}
           </div>
-
           <div className={styles.nftGrid}>
-            {isLoading && !data?.data.length ? (
+            {isLoading ? (
               <div className={styles.loadingContainer}>
                 <Spin size="large" />
               </div>

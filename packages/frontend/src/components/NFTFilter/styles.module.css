@@ -4,36 +4,47 @@
 }
 
 .searchInput {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  margin-bottom: 20px;
+  background-color: rgba(13, 17, 28, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
   color: white;
-  width: 100%;
+  margin-bottom: 24px;
 }
 
-.searchInput :global(.ant-input) {
+.searchInput input {
   background: transparent;
   color: white;
 }
 
 .searchInput :global(.ant-input-prefix) {
-  color: #666;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .filterSection {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .filterLabel {
-  margin-bottom: 10px;
-  color: #666;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  display: block;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.filterSelect {
+  width: 100%;
+  background-color: rgba(13, 17, 28, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filterSelect :global(.ant-select-selector) {
+  background: transparent !important;
+  border: none !important;
+  color: white !important;
 }
 
 .priceSlider {
-  margin: 8px 0;
+  margin: 16px 0;
 }
 
 .priceSlider :global(.ant-slider-rail) {
@@ -41,72 +52,44 @@
 }
 
 .priceSlider :global(.ant-slider-track) {
-  background-color: #eb2f96;
+  background-color: #E75BD8;
 }
 
 .priceSlider :global(.ant-slider-handle) {
-  border-color: #eb2f96;
+  background-color: #E75BD8;
+  border: 2px solid #E75BD8;
 }
 
-.priceSlider :global(.ant-slider-mark-text) {
-  color: #666;
-  font-size: 12px;
-}
-
-.select {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.select :global(.ant-select-selector) {
-  background: transparent !important;
-  border: none !important;
-  color: white !important;
-}
-
-.select :global(.ant-select-arrow) {
-  color: #666;
-}
-
-.select :global(.ant-select-selection-placeholder) {
-  color: #666 !important;
+.priceRange {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-size: 14px;
+  margin-top: 8px;
 }
 
 .buttonGroup {
   display: flex;
-  gap: 10px;
-  margin-top: 30px;
+  gap: 12px;
+  margin-top: 32px;
 }
 
 .resetButton {
-  flex: 1;
   background: transparent;
-  border: 1px solid #666;
-  color: #666;
-  height: 36px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.resetButton:hover {
-  border-color: #eb2f96;
-  color: #eb2f96;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  flex: 1;
 }
 
 .searchButton {
-  flex: 1;
-  background: #eb2f96;
+  background: #E75BD8;
   border: none;
   color: white;
-  height: 36px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  flex: 1;
 }
 
 .searchButton:hover {
-  background: #c41d7f;
+  background: #d44ec7 !important;
 }
 
 :global(.ant-select-dropdown) {
@@ -151,10 +134,11 @@
 }
 
 .filterContainer {
+  background-color: rgba(13, 17, 28, 0.9);
   padding: 24px;
-  background: #1a1a1a;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  height: 100%;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .filterContainer :global(.ant-typography) {
