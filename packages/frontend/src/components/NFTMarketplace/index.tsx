@@ -3,6 +3,7 @@ import { Layout, Avatar, Input, Spin } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import styles from './styles.module.css';
 import NFTFilter, { FilterParams } from '../NFTFilter';
+import NFTCard from '../NFTCard';
 
 const { Sider, Content } = Layout;
 
@@ -198,33 +199,11 @@ const NFTMarketplace: React.FC = () => {
               </div>
             ) : (
               products.map((product) => (
-                <div key={product.id} className={styles.nftCard}>
-                  <div className={styles.cardImageContainer}>
-                    <img
-                      className={styles.cardImage}
-                      src={`https://picsum.photos/seed/${product.imageId}/300/300`}
-                      alt={product.title}
-                    />
-                    <span className={getCategoryTagClass(product.category)}>
-                      {product.category}
-                    </span>
-                    <span className={styles.favoriteButton}>
-                      {product.isFavorite ? <HeartFilled /> : <HeartOutlined />}
-                    </span>
-                  </div>
-                  <div className={styles.cardContent}>
-                    <div className={styles.cardTitle}>{product.title}</div>
-                    <div className={styles.cardFooter}>
-                      <div className={styles.authorInfo}>
-                        <Avatar size="small" src={product.author.avatar} />
-                        <span className={styles.authorName}>
-                          {`${product.author.firstName} ${product.author.lastName}`}
-                        </span>
-                      </div>
-                      <span className={styles.price}>{product.price} ETH</span>
-                    </div>
-                  </div>
-                </div>
+                <NFTCard
+                  key={product.id}
+                  {...product}
+                  getCategoryTagClass={getCategoryTagClass}
+                />
               ))
             )}
           </div>

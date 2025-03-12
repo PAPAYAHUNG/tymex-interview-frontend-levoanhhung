@@ -59,7 +59,7 @@
 /* NFT Grid styles */
 .nftGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
   padding: 24px;
   background: rgb(13, 17, 28);
@@ -219,7 +219,7 @@
 
 @media (max-width: 1200px) {
   .nftGrid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -234,8 +234,9 @@
   }
 
   .nftGrid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     padding: 16px;
+    gap: 16px;
   }
 
   .categoryTabs {
@@ -251,7 +252,7 @@
 
 @media (max-width: 480px) {
   .nftGrid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 16px;
   }
 
