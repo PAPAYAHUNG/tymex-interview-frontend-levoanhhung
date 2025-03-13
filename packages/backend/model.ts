@@ -7,7 +7,7 @@ interface IProduct {
     createdAt: number;
     theme: "Dark" | "Light" | "Colorful" | "Halloween";
     tier: "Basic" | "Premium" | "Deluxe";
-    imageId: number; // 1 -> 20 (integer)
+    imageId: number; 
     author: IAuthor;
   }
   

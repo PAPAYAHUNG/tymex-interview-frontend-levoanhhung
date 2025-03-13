@@ -1,7 +1,9 @@
-import React, { useState, useCallback } from 'react';
-import { Select, Slider, Space, Typography, Input, Button } from 'antd';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Select, Slider, Typography, Input, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import debounce from 'lodash/debounce';
 import styles from './styles.module.css';
+import { DEFAULT_LIMIT, DEFAULT_PAGE, DEFAULT_PRICE_MAX, DEFAULT_PRICE_MIN } from '@/constants';
 
 export interface FilterParams {
   search?: string;
@@ -24,36 +26,49 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
   onFilterChange,
   loading = false
 }) => {
-  // State for all filters
+  const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<FilterParams>({
-    search: '',
     tier: undefined,
     theme: undefined,
     time: 'Lastest',
     priceSort: 'asc',
-    priceMin: 0.01,
-    priceMax: 200,
-    page: 1,
-    limit: 8
+    priceMin: DEFAULT_PRICE_MIN,
+    priceMax: DEFAULT_PRICE_MAX,
+    page: DEFAULT_PAGE,
+    limit: DEFAULT_LIMIT
   });
 
-  // Handler for updating filters
-  const updateFilters = useCallback((key: keyof FilterParams, value: any) => {
-    const newFilters = { ...filters, [key]: value, page: 1 }; // Reset page when filters change
-    setFilters(newFilters);
-    onFilterChange(newFilters);
-  }, [filters, onFilterChange]);
+  const debouncedSearch = useCallback(
+    debounce((searchValue: string) => {
+      onFilterChange({ ...filters, search: searchValue, page: DEFAULT_PAGE });
+    }, 300),
+    [filters, onFilterChange]
+  );
 
-  // Handle price range change
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
+
+  const handleSearchChange = useCallback((value: string) => {
+    setSearch(value);
+    debouncedSearch(value);
+  }, [debouncedSearch]);
+
+  const updateFilters = useCallback((key: keyof FilterParams, value: any) => {
+    const newFilters = { ...filters, [key]: value, page: DEFAULT_PAGE }; // Reset page when filters change
+    setFilters(newFilters);
+  }, [filters]);
+
   const handlePriceRangeChange = useCallback((value: number[]) => {
     updateFilters('priceMin', value[0]);
     updateFilters('priceMax', value[1]);
   }, [updateFilters]);
 
-  // Handle reset
   const handleReset = useCallback(() => {
+    setSearch('');
     const defaultFilters: FilterParams = {
-      search: '',
       tier: undefined,
       theme: undefined,
       time: 'Lastest',
@@ -64,8 +79,13 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
       limit: 8
     };
     setFilters(defaultFilters);
-    onFilterChange(defaultFilters);
+    onFilterChange({ ...defaultFilters, search: '' });
   }, [onFilterChange]);
+
+  // Handle search button click - combines current search with other filters
+  const handleSearch = useCallback(() => {
+    onFilterChange({ ...filters, search, page: 1 });
+  }, [filters, search, onFilterChange]);
 
   return (
     <div className={styles.filterContainer}>
@@ -73,18 +93,18 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
         prefix={<SearchOutlined />}
         placeholder="Quick search"
         className={styles.searchInput}
-        value={filters.search}
-        onChange={(e) => updateFilters('search', e.target.value)}
+        value={search}
+        onChange={(e) => handleSearchChange(e.target.value)}
       />
 
       <div className={styles.filterSection}>
         <Typography.Text className={styles.filterLabel}>PRICE</Typography.Text>
         <Slider
           range
-          min={0.01}
-          max={200}
+          min={DEFAULT_PRICE_MIN}
+          max={DEFAULT_PRICE_MAX}
           step={0.01}
-          value={[filters.priceMin || 0.01, filters.priceMax || 200]}
+          value={[filters.priceMin || DEFAULT_PRICE_MIN, filters.priceMax || DEFAULT_PRICE_MAX]}
           onChange={handlePriceRangeChange}
           tooltip={{
             formatter: (value) => `${value} ETH`
@@ -155,7 +175,7 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
       </div>
 
       <div className={styles.buttonGroup}>
-        <Button 
+        <Button
           icon={<>×</>}
           onClick={handleReset}
           className={styles.resetButton}
@@ -163,13 +183,13 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
         >
           Reset filter
         </Button>
-        <Button 
+        <Button
           type="primary"
-          onClick={() => onFilterChange(filters)}
+          onClick={handleSearch}
           className={styles.searchButton}
           loading={loading}
         >
-          Search
+          Apply filters
         </Button>
       </div>
     </div>
