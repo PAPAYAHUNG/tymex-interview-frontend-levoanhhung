@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useScrollEffect } from '../../hooks/useScrollEffect';
-import styles from './Navbar.module.css';
+import styles from './styles.module.css';
 import cls from 'classnames';
 
 const Navbar: React.FC = () => {
