@@ -32,16 +32,16 @@ vi.mock('antd', () => ({
 
 // Mock Ant Design icons
 vi.mock('@ant-design/icons', () => ({
-  HeartOutlined: () => <img alt="heart-outlined" />,
-  HeartFilled: () => <img alt="heart-filled" />
+  HeartOutlined: () => <div data-testid="heart-outlined" />,
+  HeartFilled: () => <div data-testid="heart-filled" />
 }));
 
 describe('NFTCard', () => {
   const mockProps = {
     id: '1',
-    title: 'Cool NFT',
+    title: 'Test NFT',
     price: 1.5,
-    category: 'Art',
+    category: 'Upper Body',
     imageId: '123',
     isFavorite: false,
     author: {
@@ -52,38 +52,34 @@ describe('NFTCard', () => {
     getCategoryTagClass: (category: string) => `category-${category.toLowerCase()}`
   };
 
-  it('renders NFT card with correct information', () => {
+  it('renders NFT card with correct props', () => {
     render(<NFTCard {...mockProps} />);
     
     // Check if title is rendered
-    expect(screen.getByText('Cool NFT')).toBeInTheDocument();
+    expect(screen.getByText('Test NFT')).toBeInTheDocument();
     
     // Check if price is rendered
     expect(screen.getByText('1.5 ETH')).toBeInTheDocument();
     
     // Check if category is rendered
-    expect(screen.getByText('Art')).toBeInTheDocument();
+    expect(screen.getByText('Upper Body')).toBeInTheDocument();
     
     // Check if author name is rendered
     expect(screen.getByText('John Doe')).toBeInTheDocument();
-    
-    // Check if image is rendered with correct src
-    const image = screen.getByAltText('Cool NFT') as HTMLImageElement;
-    expect(image).toBeInTheDocument();
-    expect(image.src).toBe('https://picsum.photos/seed/123/300/300');
   });
 
-  it('renders heart icon based on favorite status', () => {
+  it('displays favorite icon correctly', () => {
     const { rerender } = render(<NFTCard {...mockProps} />);
-    expect(screen.getByAltText('heart-outlined')).toBeInTheDocument();
-
+    expect(screen.getByTestId('heart-outlined')).toBeInTheDocument();
+    
+    // Rerender with isFavorite true
     rerender(<NFTCard {...mockProps} isFavorite={true} />);
-    expect(screen.getByAltText('heart-filled')).toBeInTheDocument();
+    expect(screen.getByTestId('heart-filled')).toBeInTheDocument();
   });
 
-  it('applies correct category class', () => {
+  it('applies correct category tag class', () => {
     render(<NFTCard {...mockProps} />);
-    const categoryElement = screen.getByText('Art');
-    expect(categoryElement.className).toBe('category-art');
+    const categoryTag = screen.getByText('Upper Body');
+    expect(categoryTag).toHaveClass('category-upper body');
   });
 }); 

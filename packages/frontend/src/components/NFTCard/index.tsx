@@ -41,7 +41,11 @@ const NFTCard: React.FC<NFTCardProps> = ({
                         {category}
                     </span>
                     <span className={styles.favoriteButton}>
-                        {isFavorite ? <HeartFilled style={{ color: '#ff4d4f' }} /> : <HeartOutlined />}
+                        {isFavorite ? (
+                            <HeartFilled data-testid="heart-filled" style={{ color: '#ff4d4f' }} />
+                        ) : (
+                            <HeartOutlined data-testid="heart-outlined" />
+                        )}
                     </span>
                 </div>
             </div>
@@ -59,7 +63,6 @@ const NFTCard: React.FC<NFTCardProps> = ({
                             {`${author.firstName} ${author.lastName}`}
                         </span>
                     </div>
-
                 </div>
             </div>
         </div>
