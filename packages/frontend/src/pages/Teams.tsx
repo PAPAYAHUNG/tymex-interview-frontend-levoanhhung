@@ -2,7 +2,7 @@ import React from 'react';
 
 const Teams: React.FC = () => {
   return (
-    <div>
+    <div style={{ paddingTop: '10rem' }}>
       <h1>Our Teams</h1>
     </div>
   );

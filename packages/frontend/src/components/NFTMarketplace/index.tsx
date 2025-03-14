@@ -4,6 +4,7 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import styles from './styles.module.scss';
 import NFTFilter, { FilterParams } from '../NFTFilter';
 import NFTCard from '../NFTCard';
+import { CategoryTabs } from '../CategoryTabs';
 
 const { Sider, Content } = Layout;
 
@@ -175,20 +176,12 @@ const NFTMarketplace: React.FC = () => {
       </Sider>
 
       <Layout>
-        <div className={styles.categoryTabs}>
-          {categories.map((category) => (
-            <button
-              key={category}
-              className={
-                category === selectedCategory
-                  ? styles.categoryButtonActive
-                  : styles.categoryButton
-              }
-              onClick={() => handleCategoryClick(category)}
-            >
-              {category}
-            </button>
-          ))}
+        <div className={styles.marketplaceContainer}>
+          <CategoryTabs
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onCategoryClick={handleCategoryClick}
+          />
         </div>
 
         <Content>

@@ -30,18 +30,20 @@ const NFTCard: React.FC<NFTCardProps> = ({
 }) => {
     return (
         <div key={id} className={styles.nftCard}>
-            <div className={styles.cardImageContainer}>
-                <img
-                    className={styles.cardImage}
-                    src={`https://picsum.photos/seed/${imageId}/300/300`}
-                    alt={title}
-                />
-                <span className={getCategoryTagClass(category)}>
-                    {category}
-                </span>
-                <span className={styles.favoriteButton}>
-                    {isFavorite ? <HeartFilled /> : <HeartOutlined />}
-                </span>
+            <div className={styles.imageContainer}>
+                <div className={styles.cardImageContainer}>
+                    <img
+                        className={styles.cardImage}
+                        src={`https://picsum.photos/seed/${imageId}/300/300`}
+                        alt={title}
+                    />
+                    <span className={getCategoryTagClass(category)}>
+                        {category}
+                    </span>
+                    <span className={styles.favoriteButton}>
+                        {isFavorite ? <HeartFilled style={{ color: '#ff4d4f' }} /> : <HeartOutlined />}
+                    </span>
+                </div>
             </div>
             <div className={styles.cardContent}>
                 <div className={styles.cardHeader}>

@@ -2,7 +2,7 @@ import React from 'react';
 
 const Whitepaper: React.FC = () => {
   return (
-    <div>
+    <div style={{ paddingTop: '10rem' }}>
       <h1>Whitepaper</h1>
     </div>
   );

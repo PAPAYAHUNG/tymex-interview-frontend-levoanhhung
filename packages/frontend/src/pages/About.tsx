@@ -2,7 +2,7 @@ import React from 'react';
 
 const About: React.FC = () => {
   return (
-    <div>
+    <div style={{ paddingTop: '10rem' }}>
       <h1>About Us</h1>
     </div>
   );
