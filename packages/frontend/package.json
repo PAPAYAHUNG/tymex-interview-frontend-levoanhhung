@@ -11,39 +11,44 @@
     "lint:css": "stylelint 'src/**/*.css'",
     "check-files": "node scripts/check-css-modules.js",
     "type-check": "tsc --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
     "@tanstack/react-query": "^5.67.2",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
     "@types/lodash": "^4.17.16",
     "@types/node": "^22.13.10",
     "antd": "^5.24.3",
     "axios": "^1.8.2",
     "classnames": "^2.5.1",
     "framer-motion": "^12.4.10",
-    "jsdom": "^26.0.0",
     "lodash": "^4.17.21",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.3.0",
-    "use-query-params": "^2.2.1",
-    "vitest": "^3.0.8"
+    "use-query-params": "^2.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.1",
+    "@testing-library/user-event": "^14.5.2",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^1.2.2",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "jsdom": "^24.0.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0"
+    "vite": "^5.0.12",
+    "vitest": "^1.2.2"
   }
 }
