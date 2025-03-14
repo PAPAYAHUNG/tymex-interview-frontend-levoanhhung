@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Layout, Avatar, Input, Spin } from 'antd';
-import { HeartOutlined, HeartFilled } from '@ant-design/icons';
-import { useQueryParams, QueryParamConfig, StringParam, NumberParam } from 'use-query-params';
+import { Layout, Spin } from 'antd';
+import { useQueryParams, StringParam } from 'use-query-params';
 import styles from './styles.module.scss';
 import NFTFilter, { FilterParams } from '../NFTFilter';
 import NFTCard from '../NFTCard';
@@ -50,6 +49,7 @@ const queryConfig = {
 const NFTMarketplace: React.FC = () => {
   const [products, setProducts] = useState<NFTProduct[]>([]);
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [queryParams, setQueryParams] = useQueryParams(queryConfig);
   const [pagination, setPagination] = useState<PaginationData>({
     page: 1,
@@ -59,9 +59,13 @@ const NFTMarketplace: React.FC = () => {
   });
 
   // Function to fetch products
-  const fetchProducts = useCallback(async () => {
+  const fetchProducts = useCallback(async (isLoadMore: boolean = false) => {
     try {
-      setLoading(true);
+      if (isLoadMore) {
+        setLoadingMore(true);
+      } else {
+        setLoading(true);
+      }
       const params = new URLSearchParams();
       
       if (queryParams.category && queryParams.category !== 'All') {
@@ -85,7 +89,8 @@ const NFTMarketplace: React.FC = () => {
 
       const data = await response.json();
 
-      setProducts(data.data);
+      // If loading more, append new items to existing ones
+      setProducts(prevProducts => isLoadMore ? [...prevProducts, ...data.data] : data.data);
       setPagination({
         page: data.pagination.page,
         limit: data.pagination.limit,
@@ -95,7 +100,11 @@ const NFTMarketplace: React.FC = () => {
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
-      setLoading(false);
+      if (isLoadMore) {
+        setLoadingMore(false);
+      } else {
+        setLoading(false);
+      }
     }
   }, [queryParams]);
 
@@ -114,7 +123,7 @@ const NFTMarketplace: React.FC = () => {
       priceSort: newFilters.priceSort,
       priceMin: newFilters.priceMin?.toString(),
       priceMax: newFilters.priceMax?.toString(),
-      page: newFilters.page?.toString(),
+      page: '1', // Reset to first page when filters change
       limit: newFilters.limit?.toString()
     });
   }, [setQueryParams]);
@@ -132,8 +141,9 @@ const NFTMarketplace: React.FC = () => {
       setQueryParams({
         page: nextPage.toString()
       });
+      fetchProducts(true); // Pass true to indicate this is a load more operation
     }
-  }, [pagination, setQueryParams]);
+  }, [pagination, setQueryParams, fetchProducts]);
 
   const getCategoryTagClass = (category: string) => {
     const categoryMap: { [key: string]: string } = {
@@ -153,17 +163,6 @@ const NFTMarketplace: React.FC = () => {
           <NFTFilter
             onFilterChange={handleFilterChange}
             loading={loading}
-            initialFilters={{
-              search: queryParams.search,
-              tier: queryParams.tier,
-              theme: queryParams.theme,
-              time: queryParams.time as 'Lastest' | 'Oldest',
-              priceSort: queryParams.priceSort as 'asc' | 'desc',
-              priceMin: queryParams.priceMin ? Number(queryParams.priceMin) : undefined,
-              priceMax: queryParams.priceMax ? Number(queryParams.priceMax) : undefined,
-              page: queryParams.page ? Number(queryParams.page) : undefined,
-              limit: queryParams.limit ? Number(queryParams.limit) : undefined
-            }}
           />
         </Sider>
 
@@ -181,24 +180,31 @@ const NFTMarketplace: React.FC = () => {
                 <Spin size="large" />
               </div>
             ) : (
-              products.map((product) => (
-                <NFTCard
-                  key={product.id}
-                  {...product}
-                  getCategoryTagClass={getCategoryTagClass}
-                />
-              ))
+              <>
+                {products.map((product) => (
+                  <NFTCard
+                    key={product.id}
+                    {...product}
+                    getCategoryTagClass={getCategoryTagClass}
+                  />
+                ))}
+                {loadingMore && (
+                  <div className={styles.loadingMoreContainer}>
+                    <Spin size="large" />
+                  </div>
+                )}
+              </>
             )}
           </div>
 
-          {pagination.hasMore && (
+          {pagination.hasMore && !loadingMore && (
             <div className={styles.viewMoreContainer}>
               <button
                 className={styles.viewMoreButton}
                 onClick={handleLoadMore}
-                disabled={loading}
+                disabled={loading || loadingMore}
               >
-                {loading ? 'Loading...' : 'View more'}
+                View more
               </button>
             </div>
           )}

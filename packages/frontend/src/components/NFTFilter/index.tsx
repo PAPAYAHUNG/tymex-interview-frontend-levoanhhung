@@ -95,13 +95,21 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
   }, [filters, onFilterChange, setQueryParams, queryParams]);
 
   const handlePriceRangeChange = useCallback((value: number[]) => {
+    // Update visual state immediately
+    setFilters(prev => ({
+      ...prev,
+      priceMin: value[0],
+      priceMax: value[1],
+    }));
+  }, []);
+
+  const handlePriceRangeAfterChange = useCallback((value: number[]) => {
     const newFilters = {
       ...filters,
       priceMin: value[0],
       priceMax: value[1],
       page: DEFAULT_PAGE
     };
-    setFilters(newFilters);
     setQueryParams({
       ...queryParams,
       priceMin: value[0],
@@ -158,6 +166,7 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
           step={0.01}
           value={[filters.priceMin || DEFAULT_PRICE_MIN, filters.priceMax || DEFAULT_PRICE_MAX]}
           onChange={handlePriceRangeChange}
+          onAfterChange={handlePriceRangeAfterChange}
           tooltip={{
             formatter: (value) => `${value} ETH`
           }}
