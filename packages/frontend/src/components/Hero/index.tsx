@@ -37,8 +37,8 @@ const heroes = [
 
 const Hero: React.FC = () => {
   return (
-    <section className={styles.heroSection}>
-      <div className={styles.heroContent}>
+    <section className={styles.heroSection} role="region">
+      <div className={styles.heroContent} data-testid="hero-content">
         <motion.div
           className={styles.heroRight}
           initial={{ x: 100, opacity: 0 }}
@@ -49,17 +49,13 @@ const Hero: React.FC = () => {
         </motion.div>
       </div>
 
-
-
-      <div
-        className={styles.section3Img}
-      >
+      <div className={styles.section3Img}>
         <img src={section3Img} alt="Mafia England" className={styles.image} />
       </div>
 
-
       <div
         className={styles.characterGrid}
+        data-testid="character-grid"
         style={{
           background: `url(${horizontalImg})`,
           backgroundSize: 'cover',
@@ -68,7 +64,7 @@ const Hero: React.FC = () => {
         }}
       >
         {heroes.map((hero) => (
-          <div className={styles.heroCard} key={hero.id}>
+          <div className={styles.heroCard} key={hero.id} data-testid="hero-card">
             <img src={hero.image} alt={hero.name} className={styles.image} />
             <div className={styles.heroCardText}>
               <h3>{hero.name}</h3>
@@ -76,9 +72,7 @@ const Hero: React.FC = () => {
           </div>
         ))}
       </div>
-      <div
-        className={styles.neonGuyImg}
-      >
+      <div className={styles.neonGuyImg}>
         <img src={neonGuyImg} alt="Mafia England" className={styles.image} />
       </div>
     </section>
