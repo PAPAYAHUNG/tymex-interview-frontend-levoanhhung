@@ -1,6 +1,8 @@
 import { ConfigProvider, theme } from 'antd';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryParamProvider } from 'use-query-params';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import MainLayout from './components/Layout/MainLayout';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -36,16 +38,18 @@ function App() {
         }}
       >
         <Router>
-          <MainLayout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/teams" element={<Teams />} />
-              <Route path="/marketplace" element={<Marketplace />} />
-              <Route path="/roadmap" element={<Roadmap />} />
-              <Route path="/whitepaper" element={<Whitepaper />} />
-            </Routes>
-          </MainLayout>
+          <QueryParamProvider adapter={ReactRouter6Adapter}>
+            <MainLayout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/teams" element={<Teams />} />
+                <Route path="/marketplace" element={<Marketplace />} />
+                <Route path="/roadmap" element={<Roadmap />} />
+                <Route path="/whitepaper" element={<Whitepaper />} />
+              </Routes>
+            </MainLayout>
+          </QueryParamProvider>
         </Router>
       </ConfigProvider>
     </QueryClientProvider>

@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Layout, Avatar, Input, Spin } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
+import { useQueryParams, QueryParamConfig, StringParam, NumberParam } from 'use-query-params';
 import styles from './styles.module.scss';
 import NFTFilter, { FilterParams } from '../NFTFilter';
 import NFTCard from '../NFTCard';
@@ -33,10 +34,23 @@ interface PaginationData {
   hasMore: boolean;
 }
 
+const queryConfig = {
+  category: StringParam,
+  search: StringParam,
+  tier: StringParam,
+  theme: StringParam,
+  time: StringParam,
+  priceSort: StringParam,
+  priceMin: StringParam,
+  priceMax: StringParam,
+  page: StringParam,
+  limit: StringParam,
+} as const;
+
 const NFTMarketplace: React.FC = () => {
   const [products, setProducts] = useState<NFTProduct[]>([]);
   const [loading, setLoading] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [queryParams, setQueryParams] = useQueryParams(queryConfig);
   const [pagination, setPagination] = useState<PaginationData>({
     page: 1,
     limit: 8,
@@ -44,50 +58,26 @@ const NFTMarketplace: React.FC = () => {
     hasMore: false
   });
 
-  // Function to build query string from filters
-  const buildQueryString = (filters: FilterParams): string => {
-    const params = new URLSearchParams();
-
-    if (filters.search) params.append('search', filters.search);
-    if (filters.tier) params.append('tier', filters.tier);
-    if (filters.theme) params.append('theme', filters.theme);
-    if (filters.priceMin !== undefined) params.append('priceMin', filters.priceMin.toString());
-    if (filters.priceMax !== undefined) params.append('priceMax', filters.priceMax.toString());
-
-    // Add category to query if not 'All'
-    if (selectedCategory !== 'All') {
-      params.append('category', selectedCategory);
-    }
-
-    // Handle time sorting
-    if (filters.time === 'Oldest') {
-      params.append('_sort', 'createdAt');
-      params.append('_order', 'asc');
-    } else {
-      params.append('_sort', 'createdAt');
-      params.append('_order', 'desc');
-    }
-
-    // Handle price sorting if time sort is not applied
-    if (filters.priceSort) {
-      if (!filters.time) {
-        params.append('_sort', 'price');
-        params.append('_order', filters.priceSort);
-      }
-    }
-
-    params.append('_page', (filters.page || 1).toString());
-    params.append('_limit', (filters.limit || 8).toString());
-
-    return params.toString();
-  };
-
   // Function to fetch products
-  const fetchProducts = useCallback(async (filters: FilterParams) => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
-      const queryString = buildQueryString(filters);
-      const response = await fetch(`http://localhost:5005/api/products?${queryString}`);
+      const params = new URLSearchParams();
+      
+      if (queryParams.category && queryParams.category !== 'All') {
+        params.append('category', queryParams.category);
+      }
+      if (queryParams.search) params.append('search', queryParams.search);
+      if (queryParams.tier) params.append('tier', queryParams.tier);
+      if (queryParams.theme) params.append('theme', queryParams.theme);
+      if (queryParams.time) params.append('time', queryParams.time);
+      if (queryParams.priceSort) params.append('priceSort', queryParams.priceSort);
+      if (queryParams.priceMin) params.append('priceMin', queryParams.priceMin);
+      if (queryParams.priceMax) params.append('priceMax', queryParams.priceMax);
+      if (queryParams.page) params.append('page', queryParams.page);
+      if (queryParams.limit) params.append('limit', queryParams.limit);
+
+      const response = await fetch(`http://localhost:5005/api/products?${params.toString()}`);
 
       if (!response.ok) {
         throw new Error('Failed to fetch products');
@@ -107,53 +97,43 @@ const NFTMarketplace: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [selectedCategory]);
+  }, [queryParams]);
+
+  // Initial fetch and handle query param changes
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   // Handle filter changes
   const handleFilterChange = useCallback((newFilters: FilterParams) => {
-    fetchProducts(newFilters);
-  }, [fetchProducts]);
-
-  // Initial fetch
-  useEffect(() => {
-    const initialFilters: FilterParams = {
-      page: 1,
-      limit: 8,
-      time: 'Lastest',
-      priceSort: 'asc',
-      priceMin: 0.01,
-      priceMax: 200
-    };
-    fetchProducts(initialFilters);
-  }, [fetchProducts]);
+    setQueryParams({
+      search: newFilters.search,
+      tier: newFilters.tier,
+      theme: newFilters.theme,
+      time: newFilters.time,
+      priceSort: newFilters.priceSort,
+      priceMin: newFilters.priceMin?.toString(),
+      priceMax: newFilters.priceMax?.toString(),
+      page: newFilters.page?.toString(),
+      limit: newFilters.limit?.toString()
+    });
+  }, [setQueryParams]);
 
   const handleCategoryClick = useCallback((category: string) => {
-    setSelectedCategory(category);
-    const filters: FilterParams = {
-      page: 1,
-      limit: 8,
-      time: 'Lastest',
-      priceSort: 'asc',
-      priceMin: 0.01,
-      priceMax: 200
-    };
-    fetchProducts(filters);
-  }, [fetchProducts]);
+    setQueryParams({
+      category: category === 'All' ? undefined : category,
+      page: '1' // Reset to first page when changing category
+    });
+  }, [setQueryParams]);
 
   const handleLoadMore = useCallback(() => {
     if (pagination.hasMore) {
       const nextPage = pagination.page + 1;
-      const filters: FilterParams = {
-        page: nextPage,
-        limit: pagination.limit,
-        time: 'Lastest',
-        priceSort: 'asc',
-        priceMin: 0.01,
-        priceMax: 200
-      };
-      fetchProducts(filters);
+      setQueryParams({
+        page: nextPage.toString()
+      });
     }
-  }, [pagination, fetchProducts]);
+  }, [pagination, setQueryParams]);
 
   const getCategoryTagClass = (category: string) => {
     const categoryMap: { [key: string]: string } = {
@@ -168,12 +148,22 @@ const NFTMarketplace: React.FC = () => {
 
   return (
     <Layout className={styles.container}>
-
       <Layout>
         <Sider width={300} className={styles.sidebarFilter}>
           <NFTFilter
             onFilterChange={handleFilterChange}
             loading={loading}
+            initialFilters={{
+              search: queryParams.search,
+              tier: queryParams.tier,
+              theme: queryParams.theme,
+              time: queryParams.time as 'Lastest' | 'Oldest',
+              priceSort: queryParams.priceSort as 'asc' | 'desc',
+              priceMin: queryParams.priceMin ? Number(queryParams.priceMin) : undefined,
+              priceMax: queryParams.priceMax ? Number(queryParams.priceMax) : undefined,
+              page: queryParams.page ? Number(queryParams.page) : undefined,
+              limit: queryParams.limit ? Number(queryParams.limit) : undefined
+            }}
           />
         </Sider>
 
@@ -181,7 +171,7 @@ const NFTMarketplace: React.FC = () => {
           <div className={styles.marketplaceContainer}>
             <CategoryTabs
               categories={categories}
-              selectedCategory={selectedCategory}
+              selectedCategory={queryParams.category || 'All'}
               onCategoryClick={handleCategoryClick}
             />
           </div>

@@ -4,6 +4,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import debounce from 'lodash/debounce';
 import styles from './styles.module.scss';
 import { DEFAULT_LIMIT, DEFAULT_PAGE, DEFAULT_PRICE_MAX, DEFAULT_PRICE_MIN } from '@/constants';
+import { useQueryParams, StringParam, NumberParam } from 'use-query-params';
 
 export interface FilterParams {
   search?: string;
@@ -22,66 +23,53 @@ interface NFTFilterProps {
   loading?: boolean;
 }
 
+const queryConfig = {
+  search: StringParam,
+  tier: StringParam,
+  theme: StringParam,
+  time: StringParam,
+  priceSort: StringParam,
+  priceMin: NumberParam,
+  priceMax: NumberParam,
+  page: NumberParam,
+  limit: NumberParam,
+} as const;
+
 const NFTFilter: React.FC<NFTFilterProps> = ({
   onFilterChange,
   loading = false
 }) => {
   const [search, setSearch] = useState('');
+  const [queryParams, setQueryParams] = useQueryParams(queryConfig);
   const [filters, setFilters] = useState<FilterParams>({
-    tier: undefined,
-    theme: undefined,
-    time: 'Lastest',
-    priceSort: 'asc',
-    priceMin: DEFAULT_PRICE_MIN,
-    priceMax: DEFAULT_PRICE_MAX,
-    page: DEFAULT_PAGE,
-    limit: DEFAULT_LIMIT
+    tier: queryParams.tier || undefined,
+    theme: queryParams.theme || undefined,
+    time: (queryParams.time as 'Lastest' | 'Oldest') || 'Lastest',
+    priceSort: (queryParams.priceSort as 'asc' | 'desc') || 'asc',
+    priceMin: queryParams.priceMin || DEFAULT_PRICE_MIN,
+    priceMax: queryParams.priceMax || DEFAULT_PRICE_MAX,
+    page: queryParams.page || DEFAULT_PAGE,
+    limit: queryParams.limit || DEFAULT_LIMIT
   });
 
-  // Initialize filters from URL parameters
+  // Initialize search from query params
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const initialFilters: FilterParams = {
-      search: params.get('search') || '',
-      tier: params.get('tier') || undefined,
-      theme: params.get('theme') || undefined,
-      time: (params.get('time') as 'Lastest' | 'Oldest') || 'Lastest',
-      priceSort: (params.get('priceSort') as 'asc' | 'desc') || 'asc',
-      priceMin: Number(params.get('priceMin')) || DEFAULT_PRICE_MIN,
-      priceMax: Number(params.get('priceMax')) || DEFAULT_PRICE_MAX,
-      page: Number(params.get('page')) || DEFAULT_PAGE,
-      limit: Number(params.get('limit')) || DEFAULT_LIMIT
-    };
-    
-    setSearch(initialFilters.search || '');
-    setFilters(initialFilters);
-    onFilterChange(initialFilters);
-  }, [onFilterChange]);
-
-  const updateURLParams = useCallback((newFilters: FilterParams) => {
-    const params = new URLSearchParams();
-    
-    if (newFilters.search) params.set('search', newFilters.search);
-    if (newFilters.tier) params.set('tier', newFilters.tier);
-    if (newFilters.theme) params.set('theme', newFilters.theme);
-    if (newFilters.time) params.set('time', newFilters.time);
-    if (newFilters.priceSort) params.set('priceSort', newFilters.priceSort);
-    if (newFilters.priceMin) params.set('priceMin', newFilters.priceMin.toString());
-    if (newFilters.priceMax) params.set('priceMax', newFilters.priceMax.toString());
-    if (newFilters.page) params.set('page', newFilters.page.toString());
-    if (newFilters.limit) params.set('limit', newFilters.limit.toString());
-
-    const newURL = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
-    window.history.pushState({}, '', newURL);
-  }, []);
+    if (queryParams.search) {
+      setSearch(queryParams.search);
+    }
+  }, [queryParams.search]);
 
   const debouncedSearch = useCallback(
     debounce((searchValue: string) => {
       const newFilters = { ...filters, search: searchValue, page: DEFAULT_PAGE };
-      updateURLParams(newFilters);
+      setQueryParams({
+        ...queryParams,
+        search: searchValue,
+        page: DEFAULT_PAGE
+      });
       onFilterChange(newFilters);
     }, 300),
-    [filters, onFilterChange, updateURLParams]
+    [filters, onFilterChange, setQueryParams, queryParams]
   );
 
   useEffect(() => {
@@ -98,9 +86,13 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
   const updateFilters = useCallback((key: keyof FilterParams, value: any) => {
     const newFilters = { ...filters, [key]: value, page: DEFAULT_PAGE };
     setFilters(newFilters);
-    updateURLParams(newFilters);
+    setQueryParams({
+      ...queryParams,
+      [key]: value,
+      page: DEFAULT_PAGE
+    });
     onFilterChange(newFilters);
-  }, [filters, onFilterChange, updateURLParams]);
+  }, [filters, onFilterChange, setQueryParams, queryParams]);
 
   const handlePriceRangeChange = useCallback((value: number[]) => {
     const newFilters = {
@@ -110,9 +102,14 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
       page: DEFAULT_PAGE
     };
     setFilters(newFilters);
-    updateURLParams(newFilters);
+    setQueryParams({
+      ...queryParams,
+      priceMin: value[0],
+      priceMax: value[1],
+      page: DEFAULT_PAGE
+    });
     onFilterChange(newFilters);
-  }, [filters, onFilterChange, updateURLParams]);
+  }, [filters, onFilterChange, setQueryParams, queryParams]);
 
   const handleReset = useCallback(() => {
     setSearch('');
@@ -127,15 +124,19 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
       limit: DEFAULT_LIMIT
     };
     setFilters(defaultFilters);
-    updateURLParams(defaultFilters);
+    setQueryParams(defaultFilters);
     onFilterChange(defaultFilters);
-  }, [onFilterChange, updateURLParams]);
+  }, [onFilterChange, setQueryParams]);
 
   const handleSearch = useCallback(() => {
     const newFilters = { ...filters, search, page: DEFAULT_PAGE };
-    updateURLParams(newFilters);
+    setQueryParams({
+      ...queryParams,
+      search,
+      page: DEFAULT_PAGE
+    });
     onFilterChange(newFilters);
-  }, [filters, search, onFilterChange, updateURLParams]);
+  }, [filters, search, onFilterChange, setQueryParams, queryParams]);
 
   return (
     <div className={styles.filterContainer}>
