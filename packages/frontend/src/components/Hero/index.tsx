@@ -7,6 +7,7 @@ import assassinImg from '../../assets/characters/section1.png';
 import neonGuyImg from '../../assets/characters/section2.png';
 import section3Img from '../../assets/characters/section3.png';
 import bgImage from '../../assets/characters/bgImage.jpeg';
+import horizontalImg from '../../assets/characters/horizontalSection.png';
 
 
 const Hero: React.FC = () => {
@@ -35,12 +36,14 @@ const Hero: React.FC = () => {
       <div
         className={styles.characterGrid}
         style={{
-          background: `url(${assassinImg})`,
+          background: `url(${horizontalImg})`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'top',
+          backgroundRepeat: 'repeat-x',
         }}
-      />
+      >
+        {/* <img src={assassinImg} alt="Character" className={styles.image} /> */}
+      </div>
       <div
         className={styles.neonGuyImg}
       >
