@@ -2,10 +2,14 @@
   min-height: 100vh;
   background-color: #0a0a0a;
   color: white;
+  display: flex;
+  flex-direction: column;
 }
 
 .mainContent {
+  flex: 1;
   margin: 0 auto;
+  width: 100%;
 }
 
 /* Custom scrollbar for webkit browsers */

@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Layout, Spin } from 'antd';
+import { Layout, Spin, Empty } from 'antd';
 import { useQueryParams, StringParam } from 'use-query-params';
 import styles from './styles.module.scss';
 import NFTFilter, { FilterParams } from '../NFTFilter';
 import NFTCard from '../NFTCard';
 import { CategoryTabs } from '../CategoryTabs';
+import { useProducts } from '@/hooks/useProducts';
 
 const { Sider, Content } = Layout;
 
@@ -47,9 +48,6 @@ const queryConfig = {
 } as const;
 
 const NFTMarketplace: React.FC = () => {
-  const [products, setProducts] = useState<NFTProduct[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [loadingMore, setLoadingMore] = useState(false);
   const [queryParams, setQueryParams] = useQueryParams(queryConfig);
   const [pagination, setPagination] = useState<PaginationData>({
     page: 1,
@@ -58,60 +56,29 @@ const NFTMarketplace: React.FC = () => {
     hasMore: false
   });
 
-  // Function to fetch products
-  const fetchProducts = useCallback(async (isLoadMore: boolean = false) => {
-    try {
-      if (isLoadMore) {
-        setLoadingMore(true);
-      } else {
-        setLoading(true);
-      }
-      const params = new URLSearchParams();
-      
-      if (queryParams.category && queryParams.category !== 'All') {
-        params.append('category', queryParams.category);
-      }
-      if (queryParams.search) params.append('search', queryParams.search);
-      if (queryParams.tier) params.append('tier', queryParams.tier);
-      if (queryParams.theme) params.append('theme', queryParams.theme);
-      if (queryParams.time) params.append('time', queryParams.time);
-      if (queryParams.priceSort) params.append('priceSort', queryParams.priceSort);
-      if (queryParams.priceMin) params.append('priceMin', queryParams.priceMin);
-      if (queryParams.priceMax) params.append('priceMax', queryParams.priceMax);
-      if (queryParams.page) params.append('page', queryParams.page);
-      if (queryParams.limit) params.append('limit', queryParams.limit);
+  const { data, isLoading, isFetching } = useProducts({
+    category: queryParams.category || undefined,
+    search: queryParams.search || undefined,
+    tier: queryParams.tier || undefined,
+    theme: queryParams.theme || undefined,
+    _sort: queryParams.priceSort ? 'price' : undefined,
+    _order: queryParams.priceSort as 'asc' | 'desc' | undefined,
+    priceMin: queryParams.priceMin ? Number(queryParams.priceMin) : undefined,
+    priceMax: queryParams.priceMax ? Number(queryParams.priceMax) : undefined,
+    _page: queryParams.page ? Number(queryParams.page) : undefined,
+    _limit: queryParams.limit ? Number(queryParams.limit) : undefined,
+  });
 
-      const response = await fetch(`http://localhost:5005/api/products?${params.toString()}`);
+  const products = data?.data || [];
+  const loading = isLoading;
+  const loadingMore = isFetching && !isLoading;
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch products');
-      }
-
-      const data = await response.json();
-
-      // If loading more, append new items to existing ones
-      setProducts(prevProducts => isLoadMore ? [...prevProducts, ...data.data] : data.data);
-      setPagination({
-        page: data.pagination.page,
-        limit: data.pagination.limit,
-        total: data.pagination.total,
-        hasMore: data.pagination.hasMore
-      });
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    } finally {
-      if (isLoadMore) {
-        setLoadingMore(false);
-      } else {
-        setLoading(false);
-      }
-    }
-  }, [queryParams]);
-
-  // Initial fetch and handle query param changes
+  // Update pagination when data changes
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    if (data?.pagination) {
+      setPagination(data.pagination);
+    }
+  }, [data?.pagination]);
 
   // Handle filter changes
   const handleFilterChange = useCallback((newFilters: FilterParams) => {
@@ -141,9 +108,8 @@ const NFTMarketplace: React.FC = () => {
       setQueryParams({
         page: nextPage.toString()
       });
-      fetchProducts(true); // Pass true to indicate this is a load more operation
     }
-  }, [pagination, setQueryParams, fetchProducts]);
+  }, [pagination, setQueryParams]);
 
   const getCategoryTagClass = (category: string) => {
     const categoryMap: { [key: string]: string } = {
@@ -179,12 +145,22 @@ const NFTMarketplace: React.FC = () => {
               <div className={styles.loadingContainer}>
                 <Spin size="large" />
               </div>
+            ) : products.length === 0 ? (
+              <div className={styles.noDataContainer}>
+                <Empty
+                  description="No NFTs found"
+                  image={Empty.PRESENTED_IMAGE_SIMPLE}
+                  imageStyle={{ height: 60 }}
+                />
+              </div>
             ) : (
               <>
                 {products.map((product) => (
                   <NFTCard
                     key={product.id}
                     {...product}
+                    id={String(product.id)}
+                    imageId={String(product.imageId)}
                     getCategoryTagClass={getCategoryTagClass}
                   />
                 ))}
@@ -197,14 +173,13 @@ const NFTMarketplace: React.FC = () => {
             )}
           </div>
 
-          {pagination.hasMore && !loadingMore && (
+          {pagination.hasMore && !loadingMore && products.length > 0 && (
             <div className={styles.viewMoreContainer}>
               <button
                 className={styles.viewMoreButton}
                 onClick={handleLoadMore}
-                disabled={loading || loadingMore}
               >
-                View more
+                View More
               </button>
             </div>
           )}

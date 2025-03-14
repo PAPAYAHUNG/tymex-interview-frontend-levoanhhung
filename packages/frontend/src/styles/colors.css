@@ -1,0 +1,67 @@
+:root {
+  /* Base Colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+
+  /* Background Colors */
+  --background-primary: #141414;
+  --background-secondary: #1a1a1a;
+  --background-tertiary: #2a2a2a;
+  --background-dark: #0a0a0a;
+  --background-overlay: rgba(255, 255, 255, 0.1);
+  --background-overlay-hover: rgba(235, 47, 150, 0.8);
+  --background-marketplace: rgb(13, 17, 28);
+  --background-card: #282837;
+
+  /* Text Colors */
+  --text-primary: rgba(255, 255, 255, 0.87);
+  --text-secondary: rgba(255, 255, 255, 0.45);
+  --text-tertiary: rgba(255, 255, 255, 0.7);
+  --text-light: rgba(255, 255, 255, 0.85);
+  --text-dark: #213547;
+
+  /* Brand Colors */
+  --brand-primary: #ff1cf7;
+  --brand-secondary: #eb2f96;
+  --brand-accent: #ff4d4f;
+  --brand-hover: #c41d7f;
+
+  /* Category Colors */
+  --category-epic: #722ed1;
+  --category-mythic: #eb2f96;
+  --category-common: #52c41a;
+  --category-rare: #1890ff;
+  --category-legendary: #fa8c16;
+
+  /* Border Colors */
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-medium: rgba(255, 255, 255, 0.15);
+  --border-dark: rgba(255, 255, 255, 0.05);
+
+  /* Gradient Colors */
+  --gradient-primary: linear-gradient(90deg, #ff1cf7 0%, #b249f8 100%);
+  --gradient-button: linear-gradient(45deg, #eb2f96, #ff4d4f);
+  --gradient-button-hover: linear-gradient(45deg, #c41d7f, #ff7875);
+
+  /* Status Colors */
+  --status-online: #52c41a;
+  --status-offline: #ff4d4f;
+  --status-busy: #fa8c16;
+
+  /* Theme Colors */
+  --theme-dark: #1c161c;
+  --theme-light: #ffffff;
+  --theme-colorful: #ff1cf7;
+  --theme-halloween: #ff6b00;
+
+  /* Shadow Colors */
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.2);
+  --shadow-dark: rgba(0, 0, 0, 0.3);
+
+  /* Scrollbar Colors */
+  --scrollbar-track: #1a1a1a;
+  --scrollbar-thumb: #3a3a3a;
+  --scrollbar-thumb-hover: #4a4a4a;
+} 
