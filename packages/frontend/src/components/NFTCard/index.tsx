@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar } from 'antd';
+import { Avatar, Tooltip } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import styles from './styles.module.scss';
 
@@ -47,7 +47,9 @@ const NFTCard: React.FC<NFTCardProps> = ({
             </div>
             <div className={styles.cardContent}>
                 <div className={styles.cardHeader}>
-                    <div className={styles.cardTitle}>{title}</div>
+                    <Tooltip title={title}>
+                        <div className={styles.cardTitle}>{title}</div>
+                    </Tooltip>
                     <div className={styles.price}>{price} ETH</div>
                 </div>
                 <div className={styles.cardFooter}>

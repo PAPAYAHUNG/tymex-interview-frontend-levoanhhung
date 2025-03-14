@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Select, Slider, Typography, Input, Button } from 'antd';
+import { Select, Slider, Typography, Input, Button, Tooltip } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import debounce from 'lodash/debounce';
 import styles from './styles.module.scss';
@@ -38,11 +38,50 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
     limit: DEFAULT_LIMIT
   });
 
+  // Initialize filters from URL parameters
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const initialFilters: FilterParams = {
+      search: params.get('search') || '',
+      tier: params.get('tier') || undefined,
+      theme: params.get('theme') || undefined,
+      time: (params.get('time') as 'Lastest' | 'Oldest') || 'Lastest',
+      priceSort: (params.get('priceSort') as 'asc' | 'desc') || 'asc',
+      priceMin: Number(params.get('priceMin')) || DEFAULT_PRICE_MIN,
+      priceMax: Number(params.get('priceMax')) || DEFAULT_PRICE_MAX,
+      page: Number(params.get('page')) || DEFAULT_PAGE,
+      limit: Number(params.get('limit')) || DEFAULT_LIMIT
+    };
+    
+    setSearch(initialFilters.search || '');
+    setFilters(initialFilters);
+    onFilterChange(initialFilters);
+  }, [onFilterChange]);
+
+  const updateURLParams = useCallback((newFilters: FilterParams) => {
+    const params = new URLSearchParams();
+    
+    if (newFilters.search) params.set('search', newFilters.search);
+    if (newFilters.tier) params.set('tier', newFilters.tier);
+    if (newFilters.theme) params.set('theme', newFilters.theme);
+    if (newFilters.time) params.set('time', newFilters.time);
+    if (newFilters.priceSort) params.set('priceSort', newFilters.priceSort);
+    if (newFilters.priceMin) params.set('priceMin', newFilters.priceMin.toString());
+    if (newFilters.priceMax) params.set('priceMax', newFilters.priceMax.toString());
+    if (newFilters.page) params.set('page', newFilters.page.toString());
+    if (newFilters.limit) params.set('limit', newFilters.limit.toString());
+
+    const newURL = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
+    window.history.pushState({}, '', newURL);
+  }, []);
+
   const debouncedSearch = useCallback(
     debounce((searchValue: string) => {
-      onFilterChange({ ...filters, search: searchValue, page: DEFAULT_PAGE });
+      const newFilters = { ...filters, search: searchValue, page: DEFAULT_PAGE };
+      updateURLParams(newFilters);
+      onFilterChange(newFilters);
     }, 300),
-    [filters, onFilterChange]
+    [filters, onFilterChange, updateURLParams]
   );
 
   useEffect(() => {
@@ -57,14 +96,23 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
   }, [debouncedSearch]);
 
   const updateFilters = useCallback((key: keyof FilterParams, value: any) => {
-    const newFilters = { ...filters, [key]: value, page: DEFAULT_PAGE }; // Reset page when filters change
+    const newFilters = { ...filters, [key]: value, page: DEFAULT_PAGE };
     setFilters(newFilters);
-  }, [filters]);
+    updateURLParams(newFilters);
+    onFilterChange(newFilters);
+  }, [filters, onFilterChange, updateURLParams]);
 
   const handlePriceRangeChange = useCallback((value: number[]) => {
-    updateFilters('priceMin', value[0]);
-    updateFilters('priceMax', value[1]);
-  }, [updateFilters]);
+    const newFilters = {
+      ...filters,
+      priceMin: value[0],
+      priceMax: value[1],
+      page: DEFAULT_PAGE
+    };
+    setFilters(newFilters);
+    updateURLParams(newFilters);
+    onFilterChange(newFilters);
+  }, [filters, onFilterChange, updateURLParams]);
 
   const handleReset = useCallback(() => {
     setSearch('');
@@ -73,19 +121,21 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
       theme: undefined,
       time: 'Lastest',
       priceSort: 'asc',
-      priceMin: 0.01,
-      priceMax: 200,
-      page: 1,
-      limit: 8
+      priceMin: DEFAULT_PRICE_MIN,
+      priceMax: DEFAULT_PRICE_MAX,
+      page: DEFAULT_PAGE,
+      limit: DEFAULT_LIMIT
     };
     setFilters(defaultFilters);
-    onFilterChange({ ...defaultFilters, search: '' });
-  }, [onFilterChange]);
+    updateURLParams(defaultFilters);
+    onFilterChange(defaultFilters);
+  }, [onFilterChange, updateURLParams]);
 
-  // Handle search button click - combines current search with other filters
   const handleSearch = useCallback(() => {
-    onFilterChange({ ...filters, search, page: 1 });
-  }, [filters, search, onFilterChange]);
+    const newFilters = { ...filters, search, page: DEFAULT_PAGE };
+    updateURLParams(newFilters);
+    onFilterChange(newFilters);
+  }, [filters, search, onFilterChange, updateURLParams]);
 
   return (
     <div className={styles.filterContainer}>
@@ -95,6 +145,7 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
         className={styles.searchInput}
         value={search}
         onChange={(e) => handleSearchChange(e.target.value)}
+        allowClear
       />
 
       <div className={styles.filterSection}>
@@ -129,6 +180,13 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
             { label: 'Premium', value: 'Premium' },
             { label: 'Deluxe', value: 'Deluxe' },
           ]}
+          showSearch
+          optionLabelProp="label"
+          dropdownRender={(menu) => (
+            <Tooltip title={filters.tier} open={!!filters.tier}>
+              {menu}
+            </Tooltip>
+          )}
         />
       </div>
 
@@ -145,6 +203,13 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
             { label: 'Dark', value: 'Dark' },
             { label: 'Light', value: 'Light' },
           ]}
+          showSearch
+          optionLabelProp="label"
+          dropdownRender={(menu) => (
+            <Tooltip title={filters.theme} open={!!filters.theme}>
+              {menu}
+            </Tooltip>
+          )}
         />
       </div>
 
@@ -158,6 +223,13 @@ const NFTFilter: React.FC<NFTFilterProps> = ({
             { label: 'Latest', value: 'Lastest' },
             { label: 'Oldest', value: 'Oldest' },
           ]}
+          showSearch
+          optionLabelProp="label"
+          dropdownRender={(menu) => (
+            <Tooltip title={filters.time}>
+              {menu}
+            </Tooltip>
+          )}
         />
       </div>
 
