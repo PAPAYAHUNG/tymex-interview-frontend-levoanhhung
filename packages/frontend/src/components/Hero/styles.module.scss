@@ -3,20 +3,20 @@
   width: 100%;
   height: 80vh;
   overflow: hidden;
-}
 
-.heroSection::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('../../assets/characters/bgImage.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: -1;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../../assets/characters/bgImage.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+  }
 }
 
 .heroContent {
@@ -53,10 +53,10 @@
   transition: transform 0.3s ease;
   width: fit-content;
   margin-top: 1rem;
-}
 
-.shopNow:hover {
-  transform: scale(1.05);
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
 .characterGrid {
@@ -65,10 +65,35 @@
   left: 0;
   right: 0;
   gap: 2rem;
-  height:20%;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  padding-left: 100px;
 
+  .heroCard {
+    width: 150px;
+    height: 100%;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .heroCardText {
+      position: absolute;
+      bottom: 15px;
+      left: 0;
+      font-size: 0.7rem;
+      right: 0;
+      text-align: center;
+      color: black;
+    }
+  }
 }
-
 
 .section3Img {
   position: absolute;
@@ -80,7 +105,7 @@
   border-radius: 20px;
   z-index: 1;
 
-  .image{
+  .image {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -96,7 +121,7 @@
   border-radius: 20px;
   z-index: 1;
 
-  .image{
+  .image {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -149,4 +174,4 @@
   .characterGrid {
     grid-template-columns: 1fr;
   }
-}
+} 

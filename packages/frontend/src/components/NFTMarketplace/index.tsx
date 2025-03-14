@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Layout, Avatar, Input, Spin } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
-import styles from './styles.module.css';
+import styles from './styles.module.scss';
 import NFTFilter, { FilterParams } from '../NFTFilter';
 import NFTCard from '../NFTCard';
 

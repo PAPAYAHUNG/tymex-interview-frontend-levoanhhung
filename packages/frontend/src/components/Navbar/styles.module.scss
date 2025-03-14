@@ -5,11 +5,11 @@
   right: 0;
   z-index: 1000;
   transition: background-color 0.3s ease;
-}
 
-.navbar.scrolled {
-  background-color: rgba(26, 26, 26, 0.9);
-  backdrop-filter: blur(10px);
+  &.scrolled {
+    background-color: rgba(26, 26, 26, 0.9);
+    backdrop-filter: blur(10px);
+  }
 }
 
 .navbarContent {
@@ -32,18 +32,18 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
-}
 
-.navLink:hover {
-  color: #eb2f96;
-}
+  &:hover {
+    color: #eb2f96;
+  }
 
-.navLink.active {
-  color: #eb2f96;
-}
+  &.active {
+    color: #eb2f96;
+  }
 
-.navLink.highlighted {
-  color: #eb2f96;
+  &.highlighted {
+    color: #eb2f96;
+  }
 }
 
 .navbarRight {
@@ -57,10 +57,10 @@
   border: none;
   height: 36px;
   padding: 0 1.5rem;
-}
 
-.connectButton:hover {
-  background: #c41d7f;
+  &:hover {
+    background: #c41d7f;
+  }
 }
 
 .languageSelector {

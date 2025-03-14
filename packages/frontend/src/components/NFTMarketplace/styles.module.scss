@@ -18,19 +18,19 @@
   background: rgba(13, 17, 28, 0.7);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   white-space: nowrap;
-}
 
-.categoryTabs::-webkit-scrollbar {
-  height: 4px;
-}
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
 
-.categoryTabs::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-}
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
 
-.categoryTabs::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+  }
 }
 
 .categoryButton {
@@ -42,15 +42,15 @@
   cursor: pointer;
   transition: all 0.3s;
   font-size: 14px;
-}
 
-.categoryButton:hover {
-  border-color: #E75BD8;
-  color: #E75BD8;
+  &:hover {
+    border-color: #E75BD8;
+    color: #E75BD8;
+  }
 }
 
 .categoryButtonActive {
-  composes: categoryButton;
+  @extend .categoryButton;
   background: #E75BD8;
   border-color: #E75BD8;
   color: white;
@@ -71,10 +71,10 @@
   overflow: hidden;
   transition: transform 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
-}
 
-.nftCard:hover {
-  transform: translateY(-4px);
+  &:hover {
+    transform: translateY(-4px);
+  }
 }
 
 .cardImageContainer {
@@ -106,27 +106,27 @@
 }
 
 .categoryTagEpic {
-  composes: categoryTag;
+  @extend .categoryTag;
   background: linear-gradient(45deg, #9d3bff, #e542ff);
 }
 
 .categoryTagMythic {
-  composes: categoryTag;
+  @extend .categoryTag;
   background: linear-gradient(45deg, #ff3b3b, #ff42a8);
 }
 
 .categoryTagRare {
-  composes: categoryTag;
+  @extend .categoryTag;
   background: linear-gradient(45deg, #3b76ff, #42ffef);
 }
 
 .categoryTagLegendary {
-  composes: categoryTag;
+  @extend .categoryTag;
   background: linear-gradient(45deg, #ffb83b, #ff7842);
 }
 
 .categoryTagCommon {
-  composes: categoryTag;
+  @extend .categoryTag;
   background: linear-gradient(45deg, #3bff7c, #42ffb8);
 }
 
@@ -144,10 +144,10 @@
   color: white;
   cursor: pointer;
   transition: all 0.3s;
-}
 
-.favoriteButton:hover {
-  color: #E75BD8;
+  &:hover {
+    color: #E75BD8;
+  }
 }
 
 .cardContent {
@@ -205,16 +205,16 @@
   color: #E75BD8;
   cursor: pointer;
   transition: all 0.3s;
-}
 
-.viewMoreButton:hover {
-  background: #E75BD8;
-  color: white;
-}
+  &:hover {
+    background: #E75BD8;
+    color: white;
+  }
 
-.viewMoreButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -271,4 +271,4 @@
   .price {
     font-size: 14px;
   }
-}
+} 

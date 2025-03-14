@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Select, Slider, Typography, Input, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import debounce from 'lodash/debounce';
-import styles from './styles.module.css';
+import styles from './styles.module.scss';
 import { DEFAULT_LIMIT, DEFAULT_PAGE, DEFAULT_PRICE_MAX, DEFAULT_PRICE_MIN } from '@/constants';
 
 export interface FilterParams {
