@@ -47,18 +47,18 @@ const NFTMarketplace: React.FC = () => {
   // Function to build query string from filters
   const buildQueryString = (filters: FilterParams): string => {
     const params = new URLSearchParams();
-    
+
     if (filters.search) params.append('search', filters.search);
     if (filters.tier) params.append('tier', filters.tier);
     if (filters.theme) params.append('theme', filters.theme);
     if (filters.priceMin !== undefined) params.append('priceMin', filters.priceMin.toString());
     if (filters.priceMax !== undefined) params.append('priceMax', filters.priceMax.toString());
-    
+
     // Add category to query if not 'All'
     if (selectedCategory !== 'All') {
       params.append('category', selectedCategory);
     }
-    
+
     // Handle time sorting
     if (filters.time === 'Oldest') {
       params.append('_sort', 'createdAt');
@@ -67,7 +67,7 @@ const NFTMarketplace: React.FC = () => {
       params.append('_sort', 'createdAt');
       params.append('_order', 'desc');
     }
-    
+
     // Handle price sorting if time sort is not applied
     if (filters.priceSort) {
       if (!filters.time) {
@@ -75,10 +75,10 @@ const NFTMarketplace: React.FC = () => {
         params.append('_order', filters.priceSort);
       }
     }
-    
+
     params.append('_page', (filters.page || 1).toString());
     params.append('_limit', (filters.limit || 8).toString());
-    
+
     return params.toString();
   };
 
@@ -88,13 +88,13 @@ const NFTMarketplace: React.FC = () => {
       setLoading(true);
       const queryString = buildQueryString(filters);
       const response = await fetch(`http://localhost:5005/api/products?${queryString}`);
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
 
       const data = await response.json();
-      
+
       setProducts(data.data);
       setPagination({
         page: data.pagination.page,
@@ -168,23 +168,23 @@ const NFTMarketplace: React.FC = () => {
 
   return (
     <Layout className={styles.container}>
-      <Sider width={300} className={styles.sidebarFilter}>
-        <NFTFilter
-          onFilterChange={handleFilterChange}
-          loading={loading}
-        />
-      </Sider>
 
       <Layout>
-        <div className={styles.marketplaceContainer}>
-          <CategoryTabs
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onCategoryClick={handleCategoryClick}
+        <Sider width={300} className={styles.sidebarFilter}>
+          <NFTFilter
+            onFilterChange={handleFilterChange}
+            loading={loading}
           />
-        </div>
+        </Sider>
 
         <Content>
+          <div className={styles.marketplaceContainer}>
+            <CategoryTabs
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onCategoryClick={handleCategoryClick}
+            />
+          </div>
           <div className={styles.nftGrid}>
             {loading ? (
               <div className={styles.loadingContainer}>

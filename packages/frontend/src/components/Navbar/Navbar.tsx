@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'antd';
-import { GlobalOutlined } from '@ant-design/icons';
+import { GlobalOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useScrollEffect } from '../../hooks/useScrollEffect';
 import styles from './styles.module.scss';
@@ -9,6 +9,7 @@ import cls from 'classnames';
 const Navbar: React.FC = () => {
     const isScrolled = useScrollEffect();
     const location = useLocation();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const navItems = [
         { label: 'HOME', path: '/' },
@@ -24,11 +25,24 @@ const Navbar: React.FC = () => {
         return location.pathname.startsWith(path);
     };
 
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    const closeMobileMenu = () => {
+        setIsMobileMenuOpen(false);
+    };
+
     return (
         <nav className={`${styles.navbar} ${isScrolled ? 'scrolled' : ''}`}>
             <div className={styles.navbarContent}>
+                {/* Mobile Menu Toggle */}
+                <button className={styles.mobileMenuToggle} onClick={toggleMobileMenu}>
+                    {isMobileMenuOpen ? <CloseOutlined /> : <MenuOutlined />}
+                </button>
+
                 {/* Navigation Links */}
-                <div className={styles.navLinks}>
+                <div className={cls(styles.navLinks, { [styles.mobileMenuOpen]: isMobileMenuOpen })}>
                     {navItems.map((item) => (
                         <NavLink
                             key={item.label}
@@ -40,6 +54,7 @@ const Navbar: React.FC = () => {
                                     [styles.highlighted]: isCurrentPath(item.path)
                                 }
                             )}
+                            onClick={closeMobileMenu}
                         >
                             {item.label}
                         </NavLink>

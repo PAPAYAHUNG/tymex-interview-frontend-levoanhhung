@@ -5,7 +5,7 @@
   right: 0;
   z-index: 1000;
   transition: all 0.3s ease;
-  background: rgba(28, 22, 28, 0.25); 
+  background: rgba(28, 22, 28, 0.55); 
 
   &.scrolled {
     background: rgba(28, 22, 28, 0.5);
@@ -23,6 +23,23 @@
   padding: 1.25rem 4rem;
   max-width: 1440px;
   margin: 0 auto;
+  position: relative;
+}
+
+.mobileMenuToggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-right: 1rem;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #eb2f96;
+  }
 }
 
 .navLinks {
@@ -129,7 +146,75 @@
 }
 
 @media (max-width: 768px) {
+  .mobileMenuToggle {
+    display: block;
+  }
+
+  .navbarContent {
+    padding: 1rem;
+  }
+
   .navLinks {
-    display: none;
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: rgba(28, 22, 28, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+
+    &.mobileMenuOpen {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .navLink {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem;
+    border-radius: 8px;
+
+    &:hover {
+      background: rgba(235, 47, 150, 0.1);
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  .navbarRight {
+    gap: 1rem;
+  }
+
+  .connectButton {
+    padding: 0 1rem;
+    font-size: 0.9rem;
+  }
+
+  .languageSelector {
+    span {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .navbarContent {
+    padding: 0.75rem;
+  }
+
+  .connectButton {
+    padding: 0 0.75rem;
+    font-size: 0.8rem;
   }
 } 
