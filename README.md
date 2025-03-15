@@ -1,6 +1,6 @@
 # Tyme Test Project
 
-A monorepo project containing both frontend and backend applications.
+A monorepo project containing both frontend and backend applications. This project aims to provide a comprehensive solution for managing tasks efficiently, with a focus on scalability and maintainability. The frontend is built using modern web technologies, while the backend is designed to be robust and easily extendable.
 
 ## Project Structure
 
@@ -32,25 +32,43 @@ A monorepo project containing both frontend and backend applications.
 - ESLint + Prettier for code formatting
 
 ### Backend
-- To be implemented
+- Express + Json server 
 
 ## Getting Started
 
-1. Install dependencies:
-```bash
-pnpm install
-```
+To get started with the Tyme Test Project, follow these steps:
 
-2. Start the development server:
-```bash
-# Frontend
-cd packages/frontend
-pnpm dev
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd tymeTest
+   ```
 
-# Backend (when implemented)
-cd packages/backend
-pnpm dev
-```
+2. **Install dependencies**:
+   Ensure you have [pnpm](https://pnpm.io/) installed globally, then run:
+   ```bash
+   pnpm install
+   ```
+
+3. **Start the development server**:
+   From the root directory, you can start both the frontend and backend (when implemented) using:
+   ```bash
+   pnpm dev
+   ```
+
+## Testing
+
+To run tests and check test coverage, use the following commands:
+
+1. **Run tests**:
+   ```bash
+   pnpm test
+   ```
+
+2. **Check test coverage**:
+   ```bash
+   pnpm test -- --coverage
+   ```
 
 ## Development
 
