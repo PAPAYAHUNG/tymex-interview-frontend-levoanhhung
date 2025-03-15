@@ -50,7 +50,13 @@ To get started with the Tyme Test Project, follow these steps:
    pnpm install
    ```
 
-3. **Start the development server**:
+3. **Set up environment variables** for both Frontend and Backend:
+   Copy the `example.env` file to `.env` and configure your environment variables:
+   ```bash
+   cp example.env .env
+   ```
+
+4. **Start the development server**:
    From the root directory, you can start both the frontend and backend (when implemented) using:
    ```bash
    pnpm dev
