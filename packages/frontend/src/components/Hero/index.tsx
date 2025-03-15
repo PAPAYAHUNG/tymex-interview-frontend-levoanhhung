@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './styles.module.scss';
+import LazyImage from '../LazyImage/LazyImage';
 
 // Import character images
 import hero1 from '../../assets/characters/author/1.png';
@@ -45,12 +46,22 @@ const Hero: React.FC = () => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <img src={bgImage} alt="The DJ" />
+          <LazyImage
+            src={bgImage}
+            alt="The DJ"
+            className={styles.heroImage}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
         </motion.div>
       </div>
 
       <div className={styles.section3Img}>
-        <img src={section3Img} alt="Mafia England" className={styles.image} />
+        <LazyImage
+          src={section3Img}
+          alt="Mafia England"
+          className={styles.image}
+          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+        />
       </div>
 
       <div
@@ -65,7 +76,12 @@ const Hero: React.FC = () => {
       >
         {heroes.map((hero) => (
           <div className={styles.heroCard} key={hero.id} data-testid="hero-card">
-            <img src={hero.image} alt={hero.name} className={styles.image} />
+            <LazyImage
+              src={hero.image}
+              alt={hero.name}
+              className={styles.image}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            />
             <div className={styles.heroCardText}>
               <h3>{hero.name}</h3>
             </div>
@@ -73,7 +89,12 @@ const Hero: React.FC = () => {
         ))}
       </div>
       <div className={styles.neonGuyImg}>
-        <img src={neonGuyImg} alt="Mafia England" className={styles.image} />
+        <LazyImage
+          src={neonGuyImg}
+          alt="Mafia England"
+          className={styles.image}
+          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+        />
       </div>
     </section>
   );

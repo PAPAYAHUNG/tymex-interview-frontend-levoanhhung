@@ -2,6 +2,7 @@ import React from 'react';
 import { Avatar, Tooltip } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import styles from './styles.module.scss';
+import LazyImage from '../LazyImage/LazyImage';
 
 interface NFTCardProps {
     id: string;
@@ -32,10 +33,18 @@ const NFTCard: React.FC<NFTCardProps> = ({
         <div key={id} className={styles.nftCard}>
             <div className={styles.imageContainer}>
                 <div className={styles.cardImageContainer}>
-                    <img
+                    <LazyImage
                         className={styles.cardImage}
                         src={`https://picsum.photos/seed/${imageId}/300/300`}
                         alt={title}
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                        }}
                     />
                     <span className={getCategoryTagClass(category)}>
                         {category}
@@ -58,7 +67,20 @@ const NFTCard: React.FC<NFTCardProps> = ({
                 </div>
                 <div className={styles.cardFooter}>
                     <div className={styles.authorInfo}>
-                        <Avatar size="small" src={author.avatar} />
+                        <Avatar 
+                            size="small" 
+                            src={author.avatar}
+                            icon={<LazyImage 
+                                src={author.avatar} 
+                                alt={`${author.firstName} ${author.lastName}`} 
+                                style={{
+                                    width: 24,
+                                    height: 24,
+                                    borderRadius: '50%',
+                                    objectFit: 'cover'
+                                }}
+                            />}
+                        />
                         <span className={styles.authorName}>
                             {`${author.firstName} ${author.lastName}`}
                         </span>

@@ -3,3 +3,4 @@ export const DEFAULT_PAGE = 1;
 export const DEFAULT_LIMIT = 8;
 export const DEFAULT_PRICE_MIN = 0.01;
 export const DEFAULT_PRICE_MAX = 200;
+export const REFRESH_INTERVAL = 60000
