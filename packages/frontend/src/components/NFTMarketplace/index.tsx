@@ -56,7 +56,7 @@ const NFTMarketplace: React.FC = () => {
     hasMore: false
   });
 
-  const { data, isLoading, isFetching } = useProducts({
+  const { data, isLoading, isFetching, fetchNextPage } = useProducts({
     category: queryParams.category || undefined,
     search: queryParams.search || undefined,
     tier: queryParams.tier || undefined,
@@ -69,16 +69,17 @@ const NFTMarketplace: React.FC = () => {
     _limit: queryParams.limit ? Number(queryParams.limit) : undefined,
   });
 
-  const products = data?.data || [];
+  // Flatten all pages of products
+  const products = data?.pages.flatMap(page => page.data) || [];
   const loading = isLoading;
   const loadingMore = isFetching && !isLoading;
 
   // Update pagination when data changes
   useEffect(() => {
-    if (data?.pagination) {
-      setPagination(data.pagination);
+    if (data?.pages[data.pages.length - 1]?.pagination) {
+      setPagination(data.pages[data.pages.length - 1].pagination);
     }
-  }, [data?.pagination]);
+  }, [data?.pages]);
 
   // Handle filter changes
   const handleFilterChange = useCallback((newFilters: FilterParams) => {
@@ -104,12 +105,9 @@ const NFTMarketplace: React.FC = () => {
 
   const handleLoadMore = useCallback(() => {
     if (pagination.hasMore) {
-      const nextPage = pagination.page + 1;
-      setQueryParams({
-        page: nextPage.toString()
-      });
+      fetchNextPage();
     }
-  }, [pagination, setQueryParams]);
+  }, [pagination.hasMore, fetchNextPage]);
 
   const getCategoryTagClass = (category: string) => {
     const categoryMap: { [key: string]: string } = {

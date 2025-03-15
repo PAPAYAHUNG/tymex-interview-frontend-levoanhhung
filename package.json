@@ -7,8 +7,11 @@
     "dev": "pnpm --parallel -r run dev",
     "dev:frontend": "pnpm --filter frontend run dev",
     "dev:backend": "pnpm --filter backend run dev",
-    "test": "pnpm --parallel -r run test",
-    "test:coverage": "pnpm --parallel -r run test:coverage"
+    "test": "pnpm --filter frontend run test",
+    "test:coverage": "pnpm --parallel -r run test:coverage",
+    "test:frontend": "pnpm --filter frontend run test",
+    "test:frontend:coverage": "pnpm --filter frontend run test:coverage",
+    "test:frontend:ui": "pnpm --filter frontend run test:ui"
   },
   "keywords": [],
   "author": "",

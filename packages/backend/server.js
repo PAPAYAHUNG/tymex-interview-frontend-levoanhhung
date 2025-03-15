@@ -1,10 +1,11 @@
 const jsonServer = require("json-server");
 const server = jsonServer.create();
 const router = jsonServer.router("db.json");
+require('dotenv').config();
 
 // Enable CORS for all requests
 server.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN || 'http://localhost:5173');
   res.header('Access-Control-Allow-Headers', '*');
   res.header('Access-Control-Allow-Methods', '*');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -17,7 +18,7 @@ server.use((req, res, next) => {
 });
 
 const middlewares = jsonServer.defaults();
-const port = 5005;
+const port = process.env.PORT || 5005;
 
 // Add custom routes before JSON Server router
 server.get('/api/products', (req, res) => {
