@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Avatar, Tooltip } from 'antd';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import styles from './styles.module.scss';
@@ -19,7 +19,7 @@ interface NFTCardProps {
     getCategoryTagClass: (category: string) => string;
 }
 
-const NFTCard: React.FC<NFTCardProps> = ({
+const NFTCard: React.FC<NFTCardProps> = memo(({
     id,
     title,
     price,
@@ -89,6 +89,8 @@ const NFTCard: React.FC<NFTCardProps> = ({
             </div>
         </div>
     );
-};
+});
+
+NFTCard.displayName = 'NFTCard';
 
 export default NFTCard; 

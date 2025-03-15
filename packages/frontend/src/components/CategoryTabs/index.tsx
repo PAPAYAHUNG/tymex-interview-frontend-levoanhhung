@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './styles.module.scss';
 
 interface CategoryTabsProps {
@@ -7,7 +7,7 @@ interface CategoryTabsProps {
   onCategoryClick: (category: string) => void;
 }
 
-export const CategoryTabs: React.FC<CategoryTabsProps> = ({
+export const CategoryTabs: React.FC<CategoryTabsProps> = memo(({
   categories,
   selectedCategory,
   onCategoryClick,
@@ -29,4 +29,6 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
       ))}
     </div>
   );
-}; 
+});
+
+CategoryTabs.displayName = 'CategoryTabs'; 

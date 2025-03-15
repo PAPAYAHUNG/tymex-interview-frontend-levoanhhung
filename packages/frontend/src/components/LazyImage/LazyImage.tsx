@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import { Skeleton } from 'antd';
 
 interface LazyImageProps {
@@ -10,7 +10,7 @@ interface LazyImageProps {
   style?: React.CSSProperties;
 }
 
-const LazyImage: React.FC<LazyImageProps> = ({
+const LazyImage: React.FC<LazyImageProps> = memo(({
   src,
   alt,
   width = '100%',
@@ -45,6 +45,10 @@ const LazyImage: React.FC<LazyImageProps> = ({
         observer.unobserve(imageRef.current);
       }
     };
+  }, []);
+
+  const handleLoad = useCallback(() => {
+    setIsLoaded(true);
   }, []);
 
   return (
@@ -83,11 +87,13 @@ const LazyImage: React.FC<LazyImageProps> = ({
             transition: 'opacity 0.3s ease-in-out',
             ...style,
           }}
-          onLoad={() => setIsLoaded(true)}
+          onLoad={handleLoad}
         />
       )}
     </div>
   );
-};
+});
+
+LazyImage.displayName = 'LazyImage';
 
 export default LazyImage; 

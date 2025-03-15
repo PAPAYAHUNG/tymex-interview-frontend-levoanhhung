@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { Layout, Spin, Empty } from 'antd';
 import { useQueryParams, StringParam } from 'use-query-params';
 import styles from './styles.module.scss';
@@ -11,21 +11,6 @@ const { Sider, Content } = Layout;
 
 const categories = ['All', 'Upper Body', 'Lower Body', 'Hat', 'Shoes', 'Accessory', 'Legendary', 'Mythic', 'Epic', 'Rare'];
 
-interface NFTProduct {
-  id: string;
-  title: string;
-  price: number;
-  category: string;
-  tier: string;
-  theme: string;
-  imageId: string;
-  isFavorite: boolean;
-  author: {
-    firstName: string;
-    lastName: string;
-    avatar: string;
-  };
-}
 
 interface PaginationData {
   page: number;
@@ -70,7 +55,7 @@ const NFTMarketplace: React.FC = () => {
   });
 
   // Flatten all pages of products
-  const products = data?.pages.flatMap(page => page.data) || [];
+  const products = useMemo(() => data?.pages.flatMap(page => page.data) || [], [data?.pages]);
   const loading = isLoading;
   const loadingMore = isFetching && !isLoading;
 
@@ -109,7 +94,7 @@ const NFTMarketplace: React.FC = () => {
     }
   }, [pagination.hasMore, fetchNextPage]);
 
-  const getCategoryTagClass = (category: string) => {
+  const getCategoryTagClass = useCallback((category: string) => {
     const categoryMap: { [key: string]: string } = {
       'Epic': styles.categoryTagEpic,
       'Mythic': styles.categoryTagMythic,
@@ -118,19 +103,60 @@ const NFTMarketplace: React.FC = () => {
       'Legendary': styles.categoryTagLegendary,
     };
     return categoryMap[category] || styles.categoryTag;
-  };
+  }, []);
+
+  const renderContent = useMemo(() => {
+    if (loading) {
+      return (
+        <div className={styles.loadingContainer}>
+          <Spin size="large" />
+        </div>
+      );
+    }
+
+    if (products.length === 0) {
+      return (
+        <div className={styles.noDataContainer}>
+          <Empty
+            description="No NFTs found"
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            imageStyle={{ height: 60 }}
+          />
+        </div>
+      );
+    }
+
+    return (
+      <>
+        {products.map((product) => (
+          <NFTCard
+            key={product.id}
+            {...product}
+            id={String(product.id)}
+            imageId={String(product.imageId)}
+            getCategoryTagClass={getCategoryTagClass}
+          />
+        ))}
+        {loadingMore && (
+          <div className={styles.loadingMoreContainer}>
+            <Spin size="large" />
+          </div>
+        )}
+      </>
+    );
+  }, [loading, products, loadingMore, getCategoryTagClass]);
 
   return (
     <Layout className={styles.container}>
-      <Layout>
-        <Sider width={300} className={styles.sidebarFilter}>
+      <div className={styles.contentWrapper}>
+        <Sider className={styles.sidebarFilter}>
           <NFTFilter
             onFilterChange={handleFilterChange}
             loading={loading}
           />
         </Sider>
 
-        <Content>
+        <Content className={styles.mainContent}>
           <div className={styles.marketplaceContainer}>
             <CategoryTabs
               categories={categories}
@@ -139,36 +165,7 @@ const NFTMarketplace: React.FC = () => {
             />
           </div>
           <div className={styles.nftGrid}>
-            {loading ? (
-              <div className={styles.loadingContainer}>
-                <Spin size="large" />
-              </div>
-            ) : products.length === 0 ? (
-              <div className={styles.noDataContainer}>
-                <Empty
-                  description="No NFTs found"
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                  imageStyle={{ height: 60 }}
-                />
-              </div>
-            ) : (
-              <>
-                {products.map((product) => (
-                  <NFTCard
-                    key={product.id}
-                    {...product}
-                    id={String(product.id)}
-                    imageId={String(product.imageId)}
-                    getCategoryTagClass={getCategoryTagClass}
-                  />
-                ))}
-                {loadingMore && (
-                  <div className={styles.loadingMoreContainer}>
-                    <Spin size="large" />
-                  </div>
-                )}
-              </>
-            )}
+            {renderContent}
           </div>
 
           {pagination.hasMore && !loadingMore && products.length > 0 && (
@@ -182,7 +179,7 @@ const NFTMarketplace: React.FC = () => {
             </div>
           )}
         </Content>
-      </Layout>
+      </div>
     </Layout>
   );
 };

@@ -1,28 +1,30 @@
 .container {
   min-height: 100vh;
   background-color: rgb(13, 17, 28);
+  padding-top: 72px;
+}
+
+.contentWrapper {
   display: flex;
   flex-direction: row;
-  padding-top: 72px;
+  width: 100%;
 }
 
 .sidebarFilter {
   background: rgba(13, 17, 28, 0.7) !important;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   padding: 24px;
-  min-width: 300px;
-  max-width: 300px;
+  width: 300px !important;
+  min-width: 300px !important;
   height: calc(100vh - 72px);
   position: sticky;
   top: 72px;
   overflow-y: auto;
 }
 
-.marketplaceContainer {
+.mainContent {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0; // Prevents flex item from overflowing
+  min-width: 0;
 }
 
 /* NFT Grid styles */
@@ -193,16 +195,18 @@
 
 @media (max-width: 992px) {
   .container {
-    flex-direction: column !important;
     padding-top: 0;
+  }
+
+  .contentWrapper {
+    flex-direction: column;
   }
 
   .sidebarFilter {
     position: relative;
     top: 0;
     width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
+    min-width: 100% !important;
     height: auto;
     padding: 16px;
     border-right: none;
@@ -210,15 +214,14 @@
     overflow-y: visible;
   }
 
-  .marketplaceContainer {
-    margin-top: 0;
+  .mainContent {
     width: 100%;
   }
 
   .nftGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    padding: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    padding: 16px;
   }
 }
 
@@ -260,6 +263,12 @@
     padding: 6px 20px;
     font-size: 14px;
     height: 36px;
+  }
+}
+
+@media (max-width: 576px) {
+  .nftGrid {
+    grid-template-columns: 1fr;
   }
 }
 
