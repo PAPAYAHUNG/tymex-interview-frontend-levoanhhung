@@ -27,13 +27,31 @@ vi.mock('antd', () => ({
   ),
   Tooltip: ({ children, title }: { children: React.ReactNode; title: string }) => (
     <div data-tooltip={title}>{children}</div>
-  )
+  ),
+  Skeleton: {
+    Image: ({ active, style }: { active?: boolean; style?: React.CSSProperties }) => (
+      <div data-testid="skeleton-image" style={style}>Skeleton Image</div>
+    )
+  }
 }));
 
 // Mock Ant Design icons
 vi.mock('@ant-design/icons', () => ({
   HeartOutlined: () => <div data-testid="heart-outlined" />,
   HeartFilled: () => <div data-testid="heart-filled" />
+}));
+
+// Mock the LazyImage component
+vi.mock('../LazyImage/LazyImage', () => ({
+  default: ({ src, alt, style, className }: { src: string, alt: string, style?: any, className?: string }) => (
+    <img 
+      src={src} 
+      alt={alt} 
+      style={style} 
+      className={className} 
+      data-testid="lazy-image"
+    />
+  )
 }));
 
 describe('NFTCard', () => {

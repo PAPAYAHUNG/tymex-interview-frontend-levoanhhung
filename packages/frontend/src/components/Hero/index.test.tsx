@@ -13,6 +13,13 @@ vi.mock('../../assets/characters/section3.png', () => ({ default: 'section3.png'
 vi.mock('../../assets/characters/bgImage.jpeg', () => ({ default: 'bgImage.jpeg' }));
 vi.mock('../../assets/characters/horizontalSection.png', () => ({ default: 'horizontalSection.png' }));
 
+// Mock LazyImage component
+vi.mock('../LazyImage/LazyImage', () => ({
+  default: ({ src, alt, className, style }: any) => (
+    <img src={src} alt={alt} className={className} style={style} />
+  ),
+}));
+
 // Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: {
