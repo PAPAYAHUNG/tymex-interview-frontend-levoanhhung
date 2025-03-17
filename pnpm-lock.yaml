@@ -101,6 +101,9 @@ importers:
       '@eslint/js':
         specifier: ^9.21.0
         version: 9.22.0
+      '@jest/globals':
+        specifier: ^29.7.0
+        version: 29.7.0
       '@testing-library/jest-dom':
         specifier: ^6.4.2
         version: 6.6.3
@@ -110,6 +113,9 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.5.2
         version: 14.6.1(@testing-library/dom@10.4.0)
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
       '@types/react':
         specifier: ^19.0.10
         version: 19.0.10
@@ -4386,7 +4392,7 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       jest-mock: 29.7.0
 
   '@jest/expect-utils@29.7.0':
@@ -4404,7 +4410,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -6528,7 +6534,7 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       jest-util: 29.7.0
 
   jest-pnp-resolver@1.2.3(jest-resolve@29.7.0):

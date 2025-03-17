@@ -2,11 +2,11 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import Navbar from '../Navbar';
-import { useScrollEffect } from '../../../hooks/useScrollEffect';
+import Navbar from './Navbar';
+import { useScrollEffect } from '../../hooks/useScrollEffect';
 
 // Mock the useScrollEffect hook
-vi.mock('../../../hooks/useScrollEffect', () => ({
+vi.mock('../../hooks/useScrollEffect', () => ({
     useScrollEffect: vi.fn(),
 }));
 
